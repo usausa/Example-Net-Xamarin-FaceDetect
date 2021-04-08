@@ -1,19 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Xamarin.Forms;
-
 namespace FaceDetect.FormsApp
 {
-    public partial class MainPage : ContentPage
+    using FaceDetect.FormsApp.Shell;
+
+    using Smart.Navigation;
+
+    public partial class MainPage
     {
         public MainPage()
         {
             InitializeComponent();
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            (BindingContext as MainPageViewModel)?.Navigator.NotifyAsync(ShellEvent.Back);
+            return true;
         }
     }
 }
