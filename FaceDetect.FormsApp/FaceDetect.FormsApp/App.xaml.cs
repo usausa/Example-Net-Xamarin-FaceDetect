@@ -11,7 +11,6 @@ namespace FaceDetect.FormsApp
     using Smart.Resolver;
 
     using XamarinFormsComponents;
-    using XamarinFormsComponents.Popup;
 
     public partial class App
     {
@@ -40,10 +39,6 @@ namespace FaceDetect.FormsApp
                     $"Navigated: [{args.Context.FromId}]->[{args.Context.ToId}] : stacked=[{navigator.StackedCount}]");
             };
 
-            // Popup Navigator
-            var popupNavigator = resolver.Get<IPopupNavigator>();
-            popupNavigator.AutoRegister(Assembly.GetExecutingAssembly().ExportedTypes);
-
             // Show MainWindow
             MainPage = resolver.Get<MainPage>();
         }
@@ -60,7 +55,6 @@ namespace FaceDetect.FormsApp
             config.UseXamarinFormsComponents(adapter =>
             {
                 adapter.AddDialogs();
-                adapter.AddPopupNavigator();
                 adapter.AddJsonSerializer();
                 adapter.AddSettings();
             });
