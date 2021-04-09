@@ -13,19 +13,12 @@
 
   <ItemGroup>
     <PackageReference Include="Acr.UserDialogs" Version="7.1.0.483" />
-    <PackageReference Include="AutoMapper" Version="10.1.1" />
-    <PackageReference Include="Microsoft.Data.Sqlite" Version="5.0.5" />
-    <PackageReference Include="Rester" Version="1.1.4" />
-    <PackageReference Include="Rester.Serializers.System.Text.Json" Version="1.1.4" />
     <PackageReference Include="Rg.Plugins.Popup" Version="2.0.0.11" />
     <PackageReference Include="System.Interactive" Version="5.0.0" />
     <PackageReference Include="System.Linq.Async" Version="5.0.0" />
     <PackageReference Include="System.Reactive" Version="5.0.0" />
     <PackageReference Include="System.Text.Json" Version="5.0.2" />
     <PackageReference Include="Usa.Smart.Core" Version="1.8.8" />
-    <PackageReference Include="Usa.Smart.Data" Version="1.4.3" />
-    <PackageReference Include="Usa.Smart.Data.Mapper" Version="1.4.5" />
-    <PackageReference Include="Usa.Smart.Data.Mapper.Builders" Version="1.4.5" />
     <PackageReference Include="Usa.Smart.Forms" Version="1.6.12" />
     <PackageReference Include="Usa.Smart.Forms.Reactive" Version="1.6.12" />
     <PackageReference Include="Usa.Smart.Forms.Resolver" Version="1.6.12" />

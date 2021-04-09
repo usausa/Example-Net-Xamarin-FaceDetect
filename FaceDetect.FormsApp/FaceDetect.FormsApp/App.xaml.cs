@@ -1,28 +1,14 @@
 namespace FaceDetect.FormsApp
 {
-    using System;
-    using System.IO;
     using System.Reflection;
-    using System.Text.Encodings.Web;
-    using System.Text.Unicode;
 
-    using AutoMapper;
-
-    using FaceDetect.FormsApp.Components.Dialog;
-    using FaceDetect.FormsApp.Helpers;
     using FaceDetect.FormsApp.Modules;
     using FaceDetect.FormsApp.Services;
     using FaceDetect.FormsApp.State;
-    using FaceDetect.FormsApp.Usecase;
 
-    using Rester;
-
-    using Smart.Data.Mapper;
     using Smart.Forms.Resolver;
     using Smart.Navigation;
     using Smart.Resolver;
-
-    using Xamarin.Essentials;
 
     using XamarinFormsComponents;
     using XamarinFormsComponents.Popup;
@@ -36,20 +22,6 @@ namespace FaceDetect.FormsApp
         public App(IComponentProvider provider)
         {
             InitializeComponent();
-
-            // Config DataMapper
-            SqlMapperConfig.Default.ConfigureTypeHandlers(config =>
-            {
-                config[typeof(DateTime)] = new DateTimeTypeHandler();
-            });
-
-            // Config Rest
-            RestConfig.Default.UseJsonSerializer(config =>
-            {
-                config.Converters.Add(new DateTimeConverter());
-                config.Encoder = JavaScriptEncoder.Create(UnicodeRanges.All);
-                config.IgnoreNullValues = true;
-            });
 
             // Config Resolver
             resolver = CreateResolver(provider);
@@ -97,24 +69,10 @@ namespace FaceDetect.FormsApp
 
             config.BindSingleton<ApplicationState>();
 
-            config.BindSingleton<IMapper>(new Mapper(new MapperConfiguration(c =>
-            {
-                c.AddProfile<MappingProfile>();
-            })));
-
             config.BindSingleton<Configuration>();
             config.BindSingleton<Session>();
 
-            config.BindSingleton(new DataServiceOptions
-            {
-                Path = Path.Combine(FileSystem.AppDataDirectory, "Mobile.db")
-            });
-            config.BindSingleton<DataService>();
-            config.BindSingleton<NetworkService>();
-
-            config.BindSingleton<NetworkOperator>();
-
-            config.BindSingleton<SampleUsecase>();
+            config.BindSingleton<FaceDetectService>();
 
             provider.RegisterComponents(config);
 
@@ -123,24 +81,6 @@ namespace FaceDetect.FormsApp
 
         protected override async void OnStart()
         {
-            var dialogs = resolver.Get<IApplicationDialog>();
-
-            // Crash report
-            await CrashReportHelper.ShowReport();
-
-            // Permission
-            while (await Permissions.IsPermissionRequired())
-            {
-                await Permissions.RequestPermissions();
-
-                if (await Permissions.IsPermissionRequired())
-                {
-                    await dialogs.Information("Permission required.");
-                }
-            }
-
-            // TODO Initialize
-
             // Navigate
             await navigator.ForwardAsync(ViewId.Menu);
         }
