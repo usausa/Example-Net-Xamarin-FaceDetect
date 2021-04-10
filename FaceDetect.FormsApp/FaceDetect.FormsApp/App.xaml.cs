@@ -1,11 +1,11 @@
 namespace FaceDetect.FormsApp
 {
     using System.Reflection;
-
+    using FaceDetect.FormsApp.Components.Dialog;
     using FaceDetect.FormsApp.Modules;
     using FaceDetect.FormsApp.Services;
     using FaceDetect.FormsApp.State;
-
+    using FaceDetect.FormsApp.Usecase;
     using Smart.Forms.Resolver;
     using Smart.Navigation;
     using Smart.Resolver;
@@ -66,7 +66,9 @@ namespace FaceDetect.FormsApp
             config.BindSingleton<Configuration>();
             config.BindSingleton<Session>();
 
-            config.BindSingleton<FaceDetectService>();
+            config.BindSingleton<DataService>();
+
+            config.BindSingleton<FaceDetectUsecase>();
 
             provider.RegisterComponents(config);
 
@@ -75,6 +77,19 @@ namespace FaceDetect.FormsApp
 
         protected override async void OnStart()
         {
+            var dialogs = resolver.Get<IApplicationDialog>();
+
+            // Permission
+            while (await Permissions.IsPermissionRequired())
+            {
+                await Permissions.RequestPermissions();
+
+                if (await Permissions.IsPermissionRequired())
+                {
+                    await dialogs.Information("Permission required.");
+                }
+            }
+
             // Navigate
             await navigator.ForwardAsync(ViewId.Menu);
         }

@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:sr="clr-namespace:Smart.Forms.Resolver;assembly=Smart.Forms"
              xmlns:shell="clr-namespace:FaceDetect.FormsApp.Shell;assembly=FaceDetect.FormsApp"
+             xmlns:markup="clr-namespace:FaceDetect.FormsApp.Markup;assembly=FaceDetect.FormsApp"
              xmlns:modules="clr-namespace:FaceDetect.FormsApp.Modules.Main;assembly=FaceDetect.FormsApp"
              x:Class="FaceDetect.FormsApp.Modules.Main.MenuView"
              x:DataType="{x:Type modules:MenuViewModel}"
@@ -21,22 +22,26 @@
 
         <Button Grid.Row="0"
                 Style="{StaticResource MenuButton}"
-                Text="Function1" />
+                Command="{Binding ForwardCommand}"
+                CommandParameter="{markup:ViewId DetectCamera}"
+                Text="Detect" />
         <Button Grid.Row="1"
                 Style="{StaticResource MenuButton}"
-                Text="Function2" />
+                IsEnabled="False"
+                Text="Learn" />
         <Button Grid.Row="2"
                 Style="{StaticResource MenuButton}"
-                Text="Function3" />
+                IsEnabled="False"
+                Text="Identify" />
         <Button Grid.Row="3"
                 Style="{StaticResource MenuButton}"
-                Text="Function4" />
+                IsEnabled="False" />
         <Button Grid.Row="4"
                 Style="{StaticResource MenuButton}"
-                Text="Function5" />
+                IsEnabled="False" />
         <Button Grid.Row="5"
                 Style="{StaticResource MenuButton}"
-                Text="Function6" />
+                Text="Setting" />
     </Grid>
 
 </ContentView>

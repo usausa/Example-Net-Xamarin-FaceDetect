@@ -1,6 +1,6 @@
 namespace FaceDetect.FormsApp.Services
 {
-    public sealed class FaceDetectService
+    public sealed class DataService
     {
     }
 }

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sr="clr-namespace:Smart.Forms.Resolver;assembly=Smart.Forms"
+             xmlns:shell="clr-namespace:FaceDetect.FormsApp.Shell;assembly=FaceDetect.FormsApp"
+             xmlns:modules="clr-namespace:FaceDetect.FormsApp.Modules.Detect;assembly=FaceDetect.FormsApp"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:Class="FaceDetect.FormsApp.Modules.Detect.DetectCameraView"
+             x:DataType="{x:Type modules:DetectCameraViewModel}"
+             sr:BindingContextResolver.Type="{x:Type modules:DetectCameraViewModel}"
+             shell:ShellProperty.Title="Detect">
+
+    <StackLayout>
+        <xct:CameraView x:Name="CameraView"
+                        HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                        MediaCaptured="CameraView_OnMediaCaptured" />
+        <Button Command="{Binding Path=ShutterCommand, Source={x:Reference CameraView}}"
+                Text="Capture" />
+        <Image x:Name="CaptureImage"
+               HeightRequest="100" />
+    </StackLayout>
+
+</ContentView>

@@ -46,9 +46,10 @@
 
   <ItemGroup>
     <Folder Include="Behaviors\" />
-    <Folder Include="Controls\" />
     <Folder Include="Converters\" />
     <Folder Include="Messaging\" />
+    <Folder Include="Modules\Learn\" />
+    <Folder Include="Modules\Identify\" />
   </ItemGroup>
 
 </Project>

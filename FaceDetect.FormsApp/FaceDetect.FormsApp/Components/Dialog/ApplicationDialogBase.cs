@@ -15,7 +15,7 @@ namespace FaceDetect.FormsApp.Components.Dialog
 
         public ValueTask<bool> Confirm(string message)
         {
-            return Confirm(string.Empty, message, "はい", "いいえ");
+            return Confirm(string.Empty, message, "Yes", "No");
         }
 
         public abstract ValueTask<bool> Confirm(string title, string message, string ok, string cancel);

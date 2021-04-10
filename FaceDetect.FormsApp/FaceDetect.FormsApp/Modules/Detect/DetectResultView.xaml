@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sr="clr-namespace:Smart.Forms.Resolver;assembly=Smart.Forms"
+             xmlns:shell="clr-namespace:FaceDetect.FormsApp.Shell;assembly=FaceDetect.FormsApp"
+             xmlns:modules="clr-namespace:FaceDetect.FormsApp.Modules.Detect;assembly=FaceDetect.FormsApp"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:Class="FaceDetect.FormsApp.Modules.Detect.DetectResultView"
+             x:DataType="{x:Type modules:DetectResultViewModel}"
+             sr:BindingContextResolver.Type="{x:Type modules:DetectResultViewModel}"
+             shell:ShellProperty.Title="Result">
+
+    <StackLayout />
+
+</ContentView>

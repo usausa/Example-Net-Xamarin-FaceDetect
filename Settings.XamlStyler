@@ -47,7 +47,7 @@
     "shell:ShellProperty.Title",
     "ios:*",
     "Width, Height, MinWidth, MinHeight, MaxWidth, MaxHeight",
-    "Margin, Padding, HorizontalAlignment, VerticalAlignment, HorizontalContentAlignment, VerticalContentAlignment, Panel.ZIndex",
+    "Margin, Padding, HorizontalAlignment, VerticalAlignment, HorizontalContentAlignment, VerticalContentAlignment, HorizontalOptions, VerticalOptions, Panel.ZIndex",
     "Platform, PageSource, PageIndex, Offset, Color, TargetName, Property, Value, StartPoint, EndPoint",
     "Storyboard.*, From, To, Duration",
     "Command, CommandParameter",
