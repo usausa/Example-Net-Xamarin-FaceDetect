@@ -1,15 +1,22 @@
 namespace FaceDetect.FormsApp
 {
+    using System;
+    using System.IO;
     using System.Reflection;
+
     using FaceDetect.FormsApp.Components.Dialog;
+    using FaceDetect.FormsApp.Helpers;
     using FaceDetect.FormsApp.Modules;
     using FaceDetect.FormsApp.Services;
     using FaceDetect.FormsApp.State;
     using FaceDetect.FormsApp.Usecase;
+
+    using Smart.Data.Mapper;
     using Smart.Forms.Resolver;
     using Smart.Navigation;
     using Smart.Resolver;
 
+    using Xamarin.Essentials;
     using XamarinFormsComponents;
 
     public partial class App
@@ -21,6 +28,12 @@ namespace FaceDetect.FormsApp
         public App(IComponentProvider provider)
         {
             InitializeComponent();
+
+            // Config DataMapper
+            SqlMapperConfig.Default.ConfigureTypeHandlers(config =>
+            {
+                config[typeof(Guid)] = new GuidTypeHandler();
+            });
 
             // Config Resolver
             resolver = CreateResolver(provider);
@@ -66,6 +79,10 @@ namespace FaceDetect.FormsApp
             config.BindSingleton<Configuration>();
             config.BindSingleton<Session>();
 
+            config.BindSingleton(new DataServiceOptions
+            {
+                Path = Path.Combine(FileSystem.AppDataDirectory, "Mobile.db")
+            });
             config.BindSingleton<DataService>();
 
             config.BindSingleton<FaceDetectUsecase>();
@@ -78,6 +95,10 @@ namespace FaceDetect.FormsApp
         protected override async void OnStart()
         {
             var dialogs = resolver.Get<IApplicationDialog>();
+            var dataService = resolver.Get<DataService>();
+
+            // Crash report
+            await CrashReportHelper.ShowReport();
 
             // Permission
             while (await Permissions.IsPermissionRequired())
@@ -89,6 +110,9 @@ namespace FaceDetect.FormsApp
                     await dialogs.Information("Permission required.");
                 }
             }
+
+            // Database
+            await dataService.PrepareAsync();
 
             // Navigate
             await navigator.ForwardAsync(ViewId.Menu);

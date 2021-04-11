@@ -5,7 +5,19 @@ VisualStudioVersion = 16.0.31129.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FaceDetect.FormsApp.Android", "FaceDetect.FormsApp\FaceDetect.FormsApp.Android\FaceDetect.FormsApp.Android.csproj", "{9B326C4F-842A-4134-9144-728576202A4C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FaceDetect.FormsApp", "FaceDetect.FormsApp\FaceDetect.FormsApp\FaceDetect.FormsApp.csproj", "{163759E1-64AC-443A-A5D5-812DD636DA51}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FaceDetect.FormsApp", "FaceDetect.FormsApp\FaceDetect.FormsApp\FaceDetect.FormsApp.csproj", "{163759E1-64AC-443A-A5D5-812DD636DA51}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A29A2969-5AD8-4598-A443-7CF29B1D7C86}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
+		FaceDetect.FormsApp.sln.DotSettings = FaceDetect.FormsApp.sln.DotSettings
+		FaceDetect.ruleset = FaceDetect.ruleset
+		README.md = README.md
+		Settings.XamlStyler = Settings.XamlStyler
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

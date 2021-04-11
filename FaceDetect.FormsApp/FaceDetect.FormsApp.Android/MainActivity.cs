@@ -1,5 +1,7 @@
 namespace FaceDetect.FormsApp.Droid
 {
+    using System.Threading.Tasks;
+
     using Android.App;
     using Android.Content;
     using Android.Content.PM;
@@ -9,6 +11,7 @@ namespace FaceDetect.FormsApp.Droid
 
     using FaceDetect.FormsApp.Components.Dialog;
     using FaceDetect.FormsApp.Droid.Components.Dialog;
+    using FaceDetect.FormsApp.Helpers;
 
     using Smart.Forms.Resolver;
     using Smart.Resolver;
@@ -29,6 +32,18 @@ namespace FaceDetect.FormsApp.Droid
         {
             SetTheme(Resource.Style.MainTheme);
             base.OnCreate(savedInstanceState);
+
+            // Setup crash report
+            TaskScheduler.UnobservedTaskException += (_, args) =>
+                CrashReportHelper.LogException(args.Exception);
+            AndroidEnvironment.UnhandledExceptionRaiser += (_, args) =>
+                CrashReportHelper.LogException(args.Exception);
+
+            // Database
+            SQLitePCL.Batteries_V2.Init();
+
+            // Barcode
+            ZXing.Net.Mobile.Forms.Android.Platform.Init();
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             Xamarin.Forms.Forms.Init(this, savedInstanceState);

@@ -1,17 +1,40 @@
 namespace FaceDetect.FormsApp.Modules.Detect
 {
+    using System.Threading.Tasks;
     using System.Windows.Input;
+
+    using FaceDetect.FormsApp.Messaging;
+
     using Smart.Navigation;
 
     public class DetectCameraViewModel : AppViewModelBase
     {
-        public ICommand ForwardCommand { get; }
+        public CameraCaptureRequest CaptureRequest { get; } = new();
+
+        public ICommand BackCommand { get; }
+        public ICommand DetectCommand { get; }
 
         public DetectCameraViewModel(
             ApplicationState applicationState)
             : base(applicationState)
         {
-            ForwardCommand = MakeAsyncCommand<ViewId>(x => Navigator.ForwardAsync(x));
+            BackCommand = MakeAsyncCommand(OnNotifyBackAsync);
+            DetectCommand = MakeAsyncCommand(DetectAsync);
+        }
+
+        protected override Task OnNotifyBackAsync()
+        {
+            return Navigator.ForwardAsync(ViewId.Menu);
+        }
+
+        private async Task DetectAsync()
+        {
+            // TODO
+            var image = await CaptureRequest.CaptureAsync();
+            if (image is not null)
+            {
+                await Navigator.ForwardAsync(ViewId.Menu);
+            }
         }
     }
 }

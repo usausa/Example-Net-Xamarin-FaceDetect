@@ -4,7 +4,7 @@
     <LangVersion>9.0</LangVersion>
     <Deterministic>true</Deterministic>
     <NoWarn>$(NoWarn),1573,1591,1712</NoWarn>
-    <MSBuildWarningsAsMessages>SA0001;MSB3277;XA4218</MSBuildWarningsAsMessages>
+    <MSBuildWarningsAsMessages>SA0001;MSB3277;XA4218;XA0122</MSBuildWarningsAsMessages>
   </PropertyGroup>
 
   <PropertyGroup>

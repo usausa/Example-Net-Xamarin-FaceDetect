@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:sr="clr-namespace:Smart.Forms.Resolver;assembly=Smart.Forms"
              xmlns:shell="clr-namespace:FaceDetect.FormsApp.Shell;assembly=FaceDetect.FormsApp"
+             xmlns:behaviors="clr-namespace:FaceDetect.FormsApp.Behaviors;assembly=FaceDetect.FormsApp"
              xmlns:modules="clr-namespace:FaceDetect.FormsApp.Modules.Detect;assembly=FaceDetect.FormsApp"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              x:Class="FaceDetect.FormsApp.Modules.Detect.DetectCameraView"
@@ -10,14 +11,35 @@
              sr:BindingContextResolver.Type="{x:Type modules:DetectCameraViewModel}"
              shell:ShellProperty.Title="Detect">
 
-    <StackLayout>
-        <xct:CameraView x:Name="CameraView"
-                        HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
-                        MediaCaptured="CameraView_OnMediaCaptured" />
-        <Button Command="{Binding Path=ShutterCommand, Source={x:Reference CameraView}}"
-                Text="Capture" />
-        <Image x:Name="CaptureImage"
-               HeightRequest="100" />
-    </StackLayout>
+    <Grid Style="{StaticResource PageGrid}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <xct:CameraView Grid.Row="0"
+                        HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <xct:CameraView.Behaviors>
+                <behaviors:CameraCaptureBehavior Request="{Binding CaptureRequest}" />
+            </xct:CameraView.Behaviors>
+        </xct:CameraView>
+
+        <!-- Function -->
+        <Grid Grid.Row="1"
+              Style="{StaticResource FunctionGrid}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0"
+                    Style="{StaticResource FunctionButton}"
+                    Command="{Binding BackCommand}"
+                    Text="Back" />
+            <Button Grid.Column="1"
+                    Style="{StaticResource FunctionButton}"
+                    Command="{Binding DetectCommand}"
+                    Text="Detect" />
+        </Grid>
+    </Grid>
 
 </ContentView>

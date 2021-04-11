@@ -11,11 +11,5 @@ namespace FaceDetect.FormsApp.Modules.Detect
         {
             InitializeComponent();
         }
-
-        // TODO
-        private void CameraView_OnMediaCaptured(object sender, MediaCapturedEventArgs e)
-        {
-            CaptureImage.Source = e.Image;
-        }
     }
 }
