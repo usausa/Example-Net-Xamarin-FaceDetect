@@ -15,10 +15,14 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-
-        <Grid Style="{StaticResource FillGrid}">
+        <Grid Grid.Row="0"
+              Style="{StaticResource FillGrid}"
+              BackgroundColor="Green">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -27,18 +31,33 @@
             </Grid.RowDefinitions>
 
             <Image Grid.Row="0"
+                   BackgroundColor="Red"
+                   Aspect="AspectFit"
                    Rotation="{Binding Rotation.Value}"
                    Source="{Binding Image.Value}" />
+
             <Label Grid.Row="1"
-                   Text="結果" />
+                   Style="{StaticResource DefaultLabel}"
+                   BackgroundColor="Blue"
+                   Text="Result" />
             <Label Grid.Row="2"
-                   Text="結果" />
+                   Style="{StaticResource DefaultLabel}"
+                   Text="Result" />
             <Label Grid.Row="3"
-                   Text="結果" />
+                   Style="{StaticResource DefaultLabel}"
+                   Text="Result" />
             <Label Grid.Row="4"
-                   Text="結果" />
+                   Style="{StaticResource DefaultLabel}"
+                   Text="Result" />
             <Label Grid.Row="5"
-                   Text="結果" />
+                   Style="{StaticResource DefaultLabel}"
+                   Text="Result" />
+            <Label Grid.Row="6"
+                   Style="{StaticResource DefaultLabel}"
+                   Text="Result" />
+            <Label Grid.Row="7"
+                   Style="{StaticResource DefaultLabel}"
+                   Text="Result" />
         </Grid>
 
         <!-- Function -->
@@ -58,5 +77,6 @@
                     Text="Close" />
         </Grid>
     </Grid>
+
 
 </ContentView>

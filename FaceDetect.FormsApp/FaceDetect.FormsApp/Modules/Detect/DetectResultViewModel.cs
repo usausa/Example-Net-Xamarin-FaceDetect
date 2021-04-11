@@ -2,6 +2,8 @@ namespace FaceDetect.FormsApp.Modules.Detect
 {
     using System.Threading.Tasks;
     using System.Windows.Input;
+    using FaceDetect.FormsApp.Components.Dialog;
+    using FaceDetect.FormsApp.Usecase;
 
     using Smart.ComponentModel;
     using Smart.Forms.ViewModels;
@@ -11,6 +13,10 @@ namespace FaceDetect.FormsApp.Modules.Detect
 
     public class DetectResultViewModel : AppViewModelBase
     {
+        private readonly IApplicationDialog dialog;
+
+        private readonly FaceDetectUsecase faceDetectUsecase;
+
         public NotificationValue<ImageSource> Image { get; } = new();
         public NotificationValue<double> Rotation { get; } = new();
 
@@ -18,9 +24,14 @@ namespace FaceDetect.FormsApp.Modules.Detect
         public ICommand CloseCommand { get; }
 
         public DetectResultViewModel(
-            ApplicationState applicationState)
+            ApplicationState applicationState,
+            IApplicationDialog dialog,
+            FaceDetectUsecase faceDetectUsecase)
             : base(applicationState)
         {
+            this.dialog = dialog;
+            this.faceDetectUsecase = faceDetectUsecase;
+
             RetryCommand = MakeAsyncCommand(OnNotifyBackAsync);
             CloseCommand = MakeAsyncCommand(() => Navigator.ForwardAsync(ViewId.Menu));
         }
@@ -29,13 +40,17 @@ namespace FaceDetect.FormsApp.Modules.Detect
         {
             if (!context.Attribute.IsRestore())
             {
-                Image.Value = context.Parameter.GetImage();
-                Rotation.Value = context.Parameter.GetRotation();
+                var capture = context.Parameter.GetCapture();
+                Image.Value = capture.Image;
+                Rotation.Value = capture.Rotation;
 
                 await Navigator.PostActionAsync(() => BusyState.UsingAsync(async () =>
                 {
-                    // TODO
-                    await Task.Delay(0);
+                    using (dialog.Loading("Detecting..."))
+                    {
+                        // TODO
+                        await faceDetectUsecase.DetectAsync(capture.ImageData);
+                    }
                 }));
             }
         }

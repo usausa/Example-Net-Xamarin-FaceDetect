@@ -1,22 +1,17 @@
 namespace FaceDetect.FormsApp.Modules
 {
-    using Smart.Navigation;
+    using FaceDetect.FormsApp.Messaging;
 
-    using Xamarin.Forms;
+    using Smart.Navigation;
 
     public static class Parameters
     {
-        private const string Image = nameof(Image);
+        private const string Capture = nameof(Capture);
 
-        private const string Rotation = nameof(Rotation);
+        public static NavigationParameter MakeCapture(CaptureResult result) =>
+            new NavigationParameter().SetValue(Capture, result);
 
-        public static NavigationParameter MakeImage(ImageSource image, double rotation) =>
-            new NavigationParameter().SetValue(Image, image).SetValue(Rotation, rotation);
-
-        public static ImageSource GetImage(this INavigationParameter parameter) =>
-            parameter.GetValue<ImageSource>(Image);
-
-        public static double GetRotation(this INavigationParameter parameter) =>
-            parameter.GetValue<double>(Rotation);
+        public static CaptureResult GetCapture(this INavigationParameter parameter) =>
+            parameter.GetValue<CaptureResult>(Capture);
     }
 }

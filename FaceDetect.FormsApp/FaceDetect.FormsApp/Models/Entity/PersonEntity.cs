@@ -1,4 +1,4 @@
-namespace FaceDetect.FormsApp.Models
+namespace FaceDetect.FormsApp.Models.Entity
 {
     using System;
 

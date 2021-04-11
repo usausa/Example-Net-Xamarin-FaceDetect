@@ -5,7 +5,7 @@ namespace FaceDetect.FormsApp.Services
     using System.Threading.Tasks;
 
     using FaceDetect.FormsApp.Helpers;
-    using FaceDetect.FormsApp.Models;
+    using FaceDetect.FormsApp.Models.Entity;
 
     using Microsoft.Data.Sqlite;
 

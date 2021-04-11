@@ -2,6 +2,8 @@ namespace FaceDetect.FormsApp.Droid
 {
     using System.Threading.Tasks;
 
+    using Acr.UserDialogs;
+
     using Android.App;
     using Android.Content;
     using Android.Content.PM;
@@ -44,6 +46,9 @@ namespace FaceDetect.FormsApp.Droid
 
             // Barcode
             ZXing.Net.Mobile.Forms.Android.Platform.Init();
+
+            // Components
+            UserDialogs.Init(this);
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             Xamarin.Forms.Forms.Init(this, savedInstanceState);

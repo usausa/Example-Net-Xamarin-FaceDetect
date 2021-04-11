@@ -61,6 +61,9 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Acr.UserDialogs">
+      <Version>7.1.0.483</Version>
+    </PackageReference>
     <PackageReference Include="SkiaSharp">
       <Version>2.80.2</Version>
     </PackageReference>

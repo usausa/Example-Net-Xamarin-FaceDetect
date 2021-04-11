@@ -32,7 +32,7 @@ namespace FaceDetect.FormsApp.Modules.Detect
             var result = await CaptureRequest.CaptureAsync();
             if (result is not null)
             {
-                await Navigator.ForwardAsync(ViewId.DetectResult, Parameters.MakeImage(result.Image, result.Rotation));
+                await Navigator.ForwardAsync(ViewId.DetectResult, Parameters.MakeCapture(result));
             }
         }
     }

@@ -64,7 +64,7 @@ namespace FaceDetect.FormsApp.Behaviors
                 camera.MediaCaptured -= MediaCaptured;
                 camera.MediaCaptureFailed -= MediaCaptureFailed;
 
-                ea.CompletionSource.TrySetResult(new CaptureResult(e.Image, e.Rotation));
+                ea.CompletionSource.TrySetResult(new CaptureResult(e.Image, e.ImageData, e.Rotation));
             }
 
             void MediaCaptureFailed(object s, string e)
