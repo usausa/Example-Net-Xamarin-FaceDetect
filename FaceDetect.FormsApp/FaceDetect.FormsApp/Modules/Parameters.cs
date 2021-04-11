@@ -1,17 +1,15 @@
 namespace FaceDetect.FormsApp.Modules
 {
-    using FaceDetect.FormsApp.Messaging;
-
     using Smart.Navigation;
 
     public static class Parameters
     {
-        private const string Capture = nameof(Capture);
+        private const string Image = nameof(Image);
 
-        public static NavigationParameter MakeCapture(CaptureResult result) =>
-            new NavigationParameter().SetValue(Capture, result);
+        public static NavigationParameter MakeImage(byte[] data) =>
+            new NavigationParameter().SetValue(Image, data);
 
-        public static CaptureResult GetCapture(this INavigationParameter parameter) =>
-            parameter.GetValue<CaptureResult>(Capture);
+        public static byte[] GetImage(this INavigationParameter parameter) =>
+            parameter.GetValue<byte[]>(Image);
     }
 }

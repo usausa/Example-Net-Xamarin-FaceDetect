@@ -18,7 +18,8 @@
         </Grid.RowDefinitions>
 
         <xct:CameraView Grid.Row="0"
-                        HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                        HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                        CameraOptions="Front">
             <xct:CameraView.Behaviors>
                 <behaviors:CameraCaptureBehavior Request="{Binding CaptureRequest}" />
             </xct:CameraView.Behaviors>

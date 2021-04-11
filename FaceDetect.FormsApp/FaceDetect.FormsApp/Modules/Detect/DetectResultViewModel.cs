@@ -1,7 +1,9 @@
 namespace FaceDetect.FormsApp.Modules.Detect
 {
+    using System.IO;
     using System.Threading.Tasks;
     using System.Windows.Input;
+
     using FaceDetect.FormsApp.Components.Dialog;
     using FaceDetect.FormsApp.Usecase;
 
@@ -18,7 +20,6 @@ namespace FaceDetect.FormsApp.Modules.Detect
         private readonly FaceDetectUsecase faceDetectUsecase;
 
         public NotificationValue<ImageSource> Image { get; } = new();
-        public NotificationValue<double> Rotation { get; } = new();
 
         public ICommand RetryCommand { get; }
         public ICommand CloseCommand { get; }
@@ -40,16 +41,15 @@ namespace FaceDetect.FormsApp.Modules.Detect
         {
             if (!context.Attribute.IsRestore())
             {
-                var capture = context.Parameter.GetCapture();
-                Image.Value = capture.Image;
-                Rotation.Value = capture.Rotation;
+                var image = context.Parameter.GetImage();
+                Image.Value = ImageSource.FromStream(() => new MemoryStream(image));
 
                 await Navigator.PostActionAsync(() => BusyState.UsingAsync(async () =>
                 {
                     using (dialog.Loading("Detecting..."))
                     {
                         // TODO
-                        await faceDetectUsecase.DetectAsync(capture.ImageData);
+                        await faceDetectUsecase.DetectAsync(image);
                     }
                 }));
             }

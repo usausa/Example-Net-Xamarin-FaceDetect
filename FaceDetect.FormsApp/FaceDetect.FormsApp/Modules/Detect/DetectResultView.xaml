@@ -32,8 +32,6 @@
 
             <Image Grid.Row="0"
                    BackgroundColor="Red"
-                   Aspect="AspectFit"
-                   Rotation="{Binding Rotation.Value}"
                    Source="{Binding Image.Value}" />
 
             <Label Grid.Row="1"
