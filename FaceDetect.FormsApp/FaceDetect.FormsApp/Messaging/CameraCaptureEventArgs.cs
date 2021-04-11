@@ -7,6 +7,6 @@ namespace FaceDetect.FormsApp.Messaging
 
     public sealed class CameraCaptureEventArgs : EventArgs
     {
-        public TaskCompletionSource<ImageSource> CompletionSource { get; } = new();
+        public TaskCompletionSource<CaptureResult> CompletionSource { get; } = new();
     }
 }

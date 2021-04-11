@@ -11,7 +11,7 @@
              sr:BindingContextResolver.Type="{x:Type modules:DetectCameraViewModel}"
              shell:ShellProperty.Title="Detect">
 
-    <Grid Style="{StaticResource PageGrid}">
+    <Grid Style="{StaticResource FillGrid}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />

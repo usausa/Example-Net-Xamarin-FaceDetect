@@ -11,7 +11,7 @@ namespace FaceDetect.FormsApp.Messaging
     {
         public event EventHandler<CameraCaptureEventArgs> Requested;
 
-        public Task<ImageSource> CaptureAsync()
+        public Task<CaptureResult> CaptureAsync()
         {
             var args = new CameraCaptureEventArgs();
             Requested?.Invoke(this, args);

@@ -117,13 +117,18 @@
             <!-- Basic -->
             <!-- ================================================================================ -->
 
-            <Style x:Key="PageGrid" TargetType="Grid">
+            <Style x:Key="FillGrid" TargetType="Grid">
                 <Setter Property="Padding" Value="0" />
                 <Setter Property="Margin" Value="0" />
                 <Setter Property="RowSpacing" Value="0" />
                 <Setter Property="ColumnSpacing" Value="0" />
                 <Setter Property="HorizontalOptions" Value="FillAndExpand" />
                 <Setter Property="VerticalOptions" Value="FillAndExpand" />
+            </Style>
+
+            <Style x:Key="FillLayout" TargetType="StackLayout">
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="Margin" Value="0" />
             </Style>
 
             <Style x:Key="PaddingLayout" TargetType="StackLayout">

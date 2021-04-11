@@ -29,11 +29,10 @@ namespace FaceDetect.FormsApp.Modules.Detect
 
         private async Task DetectAsync()
         {
-            // TODO
-            var image = await CaptureRequest.CaptureAsync();
-            if (image is not null)
+            var result = await CaptureRequest.CaptureAsync();
+            if (result is not null)
             {
-                await Navigator.ForwardAsync(ViewId.Menu);
+                await Navigator.ForwardAsync(ViewId.DetectResult, Parameters.MakeImage(result.Image, result.Rotation));
             }
         }
     }
