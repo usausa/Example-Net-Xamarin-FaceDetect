@@ -1,5 +1,6 @@
 namespace FaceDetect.FormsApp.Behaviors
 {
+    using FaceDetect.FormsApp.Helpers;
     using FaceDetect.FormsApp.Messaging;
 
     using Smart.Forms.Interactivity;
@@ -17,10 +18,34 @@ namespace FaceDetect.FormsApp.Behaviors
             null,
             propertyChanged: HandleRequestPropertyChanged);
 
+        public static readonly BindableProperty MaxSizeProperty = BindableProperty.CreateAttached(
+            nameof(MaxSize),
+            typeof(int),
+            typeof(CameraCaptureBehavior),
+            1024);
+
+        public static readonly BindableProperty QualityProperty = BindableProperty.CreateAttached(
+            nameof(Quality),
+            typeof(int),
+            typeof(CameraCaptureBehavior),
+            85);
+
         public IEventRequest<CameraCaptureEventArgs> Request
         {
             get => (IEventRequest<CameraCaptureEventArgs>)GetValue(RequestProperty);
             set => SetValue(RequestProperty, value);
+        }
+
+        public int MaxSize
+        {
+            get => (int)GetValue(MaxSizeProperty);
+            set => SetValue(MaxSizeProperty, value);
+        }
+
+        public int Quality
+        {
+            get => (int)GetValue(QualityProperty);
+            set => SetValue(QualityProperty, value);
         }
 
         protected override void OnDetachingFrom(CameraView bindable)
@@ -58,13 +83,14 @@ namespace FaceDetect.FormsApp.Behaviors
 
         private void EventRequestOnRequested(object sender, CameraCaptureEventArgs ea)
         {
-            void MediaCaptured(object s, MediaCapturedEventArgs e)
+            async void MediaCaptured(object s, MediaCapturedEventArgs e)
             {
                 var camera = (CameraView)s;
                 camera.MediaCaptured -= MediaCaptured;
                 camera.MediaCaptureFailed -= MediaCaptureFailed;
 
-                ea.CompletionSource.TrySetResult(new CaptureResult(e.Image, e.ImageData, e.Rotation));
+                var image = await ImageHelper.NormalizeImageAsync(e.ImageData, MaxSize, e.Rotation, Quality);
+                ea.CompletionSource.TrySetResult(image);
             }
 
             void MediaCaptureFailed(object s, string e)

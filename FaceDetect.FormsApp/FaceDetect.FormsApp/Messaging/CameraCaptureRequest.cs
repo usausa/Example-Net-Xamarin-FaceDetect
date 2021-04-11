@@ -5,13 +5,11 @@ namespace FaceDetect.FormsApp.Messaging
 
     using Smart.Forms.Messaging;
 
-    using Xamarin.Forms;
-
     public sealed class CameraCaptureRequest : IEventRequest<CameraCaptureEventArgs>
     {
         public event EventHandler<CameraCaptureEventArgs> Requested;
 
-        public Task<CaptureResult> CaptureAsync()
+        public Task<byte[]> CaptureAsync()
         {
             var args = new CameraCaptureEventArgs();
             Requested?.Invoke(this, args);
