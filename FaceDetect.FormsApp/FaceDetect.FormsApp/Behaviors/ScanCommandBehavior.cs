@@ -5,6 +5,7 @@ namespace FaceDetect.FormsApp.Behaviors
 
     using Smart.Forms.Interactivity;
 
+    using Xamarin.Essentials;
     using Xamarin.Forms;
 
     using ZXing;
@@ -88,6 +89,8 @@ namespace FaceDetect.FormsApp.Behaviors
                 var command = Command;
                 if (command?.CanExecute(result.Text) ?? false)
                 {
+                    Vibration.Vibrate(TimeSpan.FromMilliseconds(250));
+
                     command.Execute(result.Text);
                 }
             });

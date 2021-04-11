@@ -17,8 +17,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <zxing:ZXingScannerView x:Name="ScannerView"
-                                Grid.Row="0"
+        <zxing:ZXingScannerView Grid.Row="0"
                                 IsScanning="{Binding CanScan.Value}">
             <zxing:ZXingScannerView.Behaviors>
                 <behaviors:ScanCommandBehavior Command="{Binding ScanCommand}" />

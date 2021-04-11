@@ -4,14 +4,16 @@ namespace FaceDetect.FormsApp.State
 
     public class Configuration
     {
-        public string ServerAddress
+        public string ApiKey
         {
-#if  DEBUG
-            get => Preferences.Get(nameof(ServerAddress), "https://10.13.8.25:30443/");
-#else
-            get => Preferences.Get(nameof(ServerAddress), "https://xxxx/");
-#endif
-            set => Preferences.Set(nameof(ServerAddress), value);
+            get => Preferences.Get(nameof(ApiKey), string.Empty);
+            set => Preferences.Set(nameof(ApiKey), value);
+        }
+
+        public string ApiEndPoint
+        {
+            get => Preferences.Get(nameof(ApiEndPoint), string.Empty);
+            set => Preferences.Set(nameof(ApiEndPoint), value);
         }
     }
 }

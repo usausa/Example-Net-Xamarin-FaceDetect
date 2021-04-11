@@ -13,17 +13,7 @@ namespace FaceDetect.FormsApp.Components.Dialog
             this.dialogs = dialogs;
         }
 
-        public ValueTask<bool> Confirm(string message)
-        {
-            return Confirm(string.Empty, message, "Yes", "No");
-        }
-
         public abstract ValueTask<bool> Confirm(string title, string message, string ok, string cancel);
-
-        public ValueTask Information(string message)
-        {
-            return Information(string.Empty, message, "OK");
-        }
 
         public abstract ValueTask Information(string title, string message, string ok);
 
@@ -35,6 +25,29 @@ namespace FaceDetect.FormsApp.Components.Dialog
         public IProgress Loading(string title)
         {
             return dialogs.Loading(title);
+        }
+    }
+
+    public static class ApplicationDialogBaseExtensions
+    {
+        public static ValueTask<bool> Confirm(this IApplicationDialog dialog, string title, string message)
+        {
+            return dialog.Confirm(title, message, "Yes", "No");
+        }
+
+        public static ValueTask<bool> Confirm(this IApplicationDialog dialog, string message)
+        {
+            return dialog.Confirm(string.Empty, message, "Yes", "No");
+        }
+
+        public static ValueTask Information(this IApplicationDialog dialog, string title, string message)
+        {
+            return dialog.Information(title, message, "OK");
+        }
+
+        public static ValueTask Information(this IApplicationDialog dialog, string message)
+        {
+            return dialog.Information(string.Empty, message, "OK");
         }
     }
 }

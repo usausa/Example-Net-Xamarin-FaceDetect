@@ -5,6 +5,7 @@ namespace FaceDetect.FormsApp.Modules.Detect
     using System.Windows.Input;
 
     using FaceDetect.FormsApp.Components.Dialog;
+    using FaceDetect.FormsApp.Models.Result;
     using FaceDetect.FormsApp.Usecase;
 
     using Smart.ComponentModel;
@@ -20,6 +21,7 @@ namespace FaceDetect.FormsApp.Modules.Detect
         private readonly FaceDetectUsecase faceDetectUsecase;
 
         public NotificationValue<ImageSource> Image { get; } = new();
+        public NotificationValue<DetectResult> Result { get; } = new();
 
         public ICommand RetryCommand { get; }
         public ICommand CloseCommand { get; }
@@ -46,10 +48,9 @@ namespace FaceDetect.FormsApp.Modules.Detect
 
                 await Navigator.PostActionAsync(() => BusyState.UsingAsync(async () =>
                 {
-                    using (dialog.Loading("Detecting..."))
+                    using (dialog.Loading("Detecting"))
                     {
-                        // TODO
-                        await faceDetectUsecase.DetectAsync(image);
+                        Result.Value = await faceDetectUsecase.DetectAsync(image);
                     }
                 }));
             }

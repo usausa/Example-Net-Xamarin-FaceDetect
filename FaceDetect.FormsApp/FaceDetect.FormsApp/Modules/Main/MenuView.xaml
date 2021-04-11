@@ -22,7 +22,7 @@
 
         <Button Grid.Row="0"
                 Style="{StaticResource MenuButton}"
-                Command="{Binding ForwardCommand}"
+                Command="{Binding DetectForwardCommand}"
                 CommandParameter="{markup:ViewId DetectCamera}"
                 Text="Detect" />
         <Button Grid.Row="1"

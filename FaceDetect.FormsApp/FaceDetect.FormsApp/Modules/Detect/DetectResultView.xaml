@@ -16,8 +16,7 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0"
-              Style="{StaticResource FillGrid}"
-              BackgroundColor="Green">
+              Style="{StaticResource FillGrid}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
@@ -31,19 +30,17 @@
             </Grid.RowDefinitions>
 
             <Image Grid.Row="0"
-                   BackgroundColor="Red"
                    Source="{Binding Image.Value}" />
 
             <Label Grid.Row="1"
                    Style="{StaticResource DefaultLabel}"
-                   BackgroundColor="Blue"
-                   Text="Result" />
+                   Text="{Binding Result.Value.Age, StringFormat='Age: {0}'}" />
             <Label Grid.Row="2"
                    Style="{StaticResource DefaultLabel}"
-                   Text="Result" />
+                   Text="{Binding Result.Value.Gender, StringFormat='Gender: {0}'}" />
             <Label Grid.Row="3"
                    Style="{StaticResource DefaultLabel}"
-                   Text="Result" />
+                   Text="{Binding Result.Value.PredominantEmotion, StringFormat='Emotion: {0}'}" />
             <Label Grid.Row="4"
                    Style="{StaticResource DefaultLabel}"
                    Text="Result" />

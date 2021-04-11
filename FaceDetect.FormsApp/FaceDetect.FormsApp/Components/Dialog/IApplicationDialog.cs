@@ -6,11 +6,7 @@ namespace FaceDetect.FormsApp.Components.Dialog
 
     public interface IApplicationDialog
     {
-        ValueTask<bool> Confirm(string message);
-
         ValueTask<bool> Confirm(string title, string message, string ok, string cancel);
-
-        ValueTask Information(string message);
 
         ValueTask Information(string title, string message, string ok);
 
