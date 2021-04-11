@@ -41,6 +41,8 @@
                 IsEnabled="False" />
         <Button Grid.Row="5"
                 Style="{StaticResource MenuButton}"
+                Command="{Binding ForwardCommand}"
+                CommandParameter="{markup:ViewId Setting}"
                 Text="Setting" />
     </Grid>
 

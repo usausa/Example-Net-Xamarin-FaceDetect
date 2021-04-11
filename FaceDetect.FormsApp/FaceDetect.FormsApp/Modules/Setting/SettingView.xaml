@@ -4,12 +4,12 @@
              xmlns:sr="clr-namespace:Smart.Forms.Resolver;assembly=Smart.Forms"
              xmlns:shell="clr-namespace:FaceDetect.FormsApp.Shell;assembly=FaceDetect.FormsApp"
              xmlns:behaviors="clr-namespace:FaceDetect.FormsApp.Behaviors;assembly=FaceDetect.FormsApp"
-             xmlns:modules="clr-namespace:FaceDetect.FormsApp.Modules.Detect;assembly=FaceDetect.FormsApp"
-             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-             x:Class="FaceDetect.FormsApp.Modules.Detect.DetectCameraView"
-             x:DataType="{x:Type modules:DetectCameraViewModel}"
-             sr:BindingContextResolver.Type="{x:Type modules:DetectCameraViewModel}"
-             shell:ShellProperty.Title="Detect">
+             xmlns:modules="clr-namespace:FaceDetect.FormsApp.Modules.Setting;assembly=FaceDetect.FormsApp"
+             xmlns:zxing="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms"
+             x:Class="FaceDetect.FormsApp.Modules.Setting.SettingView"
+             x:DataType="{x:Type modules:SettingViewModel}"
+             sr:BindingContextResolver.Type="{x:Type modules:SettingViewModel}"
+             shell:ShellProperty.Title="Setting">
 
     <Grid Style="{StaticResource FillGrid}">
         <Grid.RowDefinitions>
@@ -17,13 +17,14 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <xct:CameraView Grid.Row="0"
-                        HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
-                        CameraOptions="Front">
-            <xct:CameraView.Behaviors>
-                <behaviors:CameraCaptureBehavior Request="{Binding CaptureRequest}" />
-            </xct:CameraView.Behaviors>
-        </xct:CameraView>
+        <zxing:ZXingScannerView x:Name="ScannerView"
+                                Grid.Row="0"
+                                IsScanning="{Binding CanScan.Value}">
+            <zxing:ZXingScannerView.Behaviors>
+                <behaviors:ScanCommandBehavior Command="{Binding ScanCommand}" />
+            </zxing:ZXingScannerView.Behaviors>
+        </zxing:ZXingScannerView>
+        <zxing:ZXingDefaultOverlay Grid.Row="0" />
 
         <!-- Function -->
         <Grid Grid.Row="1"
@@ -38,8 +39,7 @@
                     Text="Back" />
             <Button Grid.Column="1"
                     Style="{StaticResource FunctionButton}"
-                    Command="{Binding DetectCommand}"
-                    Text="Detect" />
+                    IsEnabled="False" />
         </Grid>
     </Grid>
 

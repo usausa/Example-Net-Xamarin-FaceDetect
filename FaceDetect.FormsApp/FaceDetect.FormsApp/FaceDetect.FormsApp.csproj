@@ -59,4 +59,10 @@
     <Folder Include="Modules\Identify\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Update="Modules\Setting\SettingView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>
