@@ -26,6 +26,11 @@
     <UseShortFileNames>True</UseShortFileNames>
     <AndroidEnablePreloadAssemblies>True</AndroidEnablePreloadAssemblies>
     <CodeAnalysisRuleSet>..\..\FaceDetect.ruleset</CodeAnalysisRuleSet>
+    <AndroidKeyStore>true</AndroidKeyStore>
+    <AndroidSigningKeyStore>example.keystore</AndroidSigningKeyStore>
+    <AndroidSigningStorePass>example</AndroidSigningStorePass>
+    <AndroidSigningKeyAlias>example</AndroidSigningKeyAlias>
+    <AndroidSigningKeyPass>example</AndroidSigningKeyPass>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
