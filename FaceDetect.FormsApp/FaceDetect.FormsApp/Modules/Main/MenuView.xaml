@@ -27,11 +27,13 @@
                 Text="Detect" />
         <Button Grid.Row="1"
                 Style="{StaticResource MenuButton}"
-                IsEnabled="False"
+                Command="{Binding DetectForwardCommand}"
+                CommandParameter="{markup:ViewId LearnList}"
                 Text="Learn" />
         <Button Grid.Row="2"
                 Style="{StaticResource MenuButton}"
-                IsEnabled="False"
+                Command="{Binding DetectForwardCommand}"
+                CommandParameter="{markup:ViewId IdentifyCamera}"
                 Text="Identify" />
         <Button Grid.Row="3"
                 Style="{StaticResource MenuButton}"

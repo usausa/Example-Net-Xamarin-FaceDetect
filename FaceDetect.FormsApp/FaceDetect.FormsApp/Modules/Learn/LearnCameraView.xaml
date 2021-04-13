@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sr="clr-namespace:Smart.Forms.Resolver;assembly=Smart.Forms"
+             xmlns:shell="clr-namespace:FaceDetect.FormsApp.Shell;assembly=FaceDetect.FormsApp"
+             xmlns:modules="clr-namespace:FaceDetect.FormsApp.Modules.Learn;assembly=FaceDetect.FormsApp"
+             x:Class="FaceDetect.FormsApp.Modules.Learn.LearnCameraView"
+             x:DataType="{x:Type modules:LearnCameraViewModel}"
+             sr:BindingContextResolver.Type="{x:Type modules:LearnCameraViewModel}"
+             shell:ShellProperty.Title="Learn">
+
+    <StackLayout>
+        <Label Text="Hello Xamarin.Forms!" />
+    </StackLayout>
+
+</ContentView>
