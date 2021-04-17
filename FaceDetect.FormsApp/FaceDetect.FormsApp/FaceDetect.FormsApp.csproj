@@ -12,12 +12,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Converters\**" />
-    <EmbeddedResource Remove="Converters\**" />
-    <None Remove="Converters\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <EmbeddedResource Include="Resources\Font Awesome 5 Free-Regular-400.otf" />
   </ItemGroup>
 
@@ -57,27 +51,6 @@
     <PackageReference Include="XamarinFormsComponents.Settings" Version="1.1.2" />
     <PackageReference Include="ZXing.Net.Mobile" Version="2.4.1" />
     <PackageReference Include="ZXing.Net.Mobile.Forms" Version="2.4.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Modules\Identify\IdentifyCameraView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Modules\Identify\IdentifyResultView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Modules\Learn\LearnCameraView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Modules\Learn\LearnEditView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Modules\Learn\LearnListView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Modules\Setting\SettingView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
   </ItemGroup>
 
 </Project>
