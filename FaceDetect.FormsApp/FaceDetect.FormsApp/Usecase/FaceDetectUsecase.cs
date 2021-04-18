@@ -116,17 +116,17 @@ namespace FaceDetect.FormsApp.Usecase
             }
 
             var max = 0d;
-            var maxColor = HairColorType.Unknown;
+            var maxColor = default(string);
             foreach (var hairColor in hair.HairColor)
             {
                 if (hairColor.Confidence > max)
                 {
                     max = hairColor.Confidence;
-                    maxColor = hairColor.Color;
+                    maxColor = hairColor.Color.ToString();
                 }
             }
 
-            return maxColor.ToString();
+            return maxColor;
         }
     }
 }
