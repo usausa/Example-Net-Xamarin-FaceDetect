@@ -3,6 +3,7 @@ namespace FaceDetect.FormsApp.Usecase
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Reflection;
     using System.Threading.Tasks;
 
@@ -36,7 +37,6 @@ namespace FaceDetect.FormsApp.Usecase
                 using var client = new FaceClient(new ApiKeyServiceClientCredentials(configuration.ApiKey)) { Endpoint = configuration.ApiEndPoint };
                 await using var stream = new MemoryStream(image);
 
-                // TODO
                 var detectedFaces = await client.Face.DetectWithStreamWithHttpMessagesAsync(
                     stream,
                     returnFaceAttributes: new List<FaceAttributeType>
@@ -75,7 +75,10 @@ namespace FaceDetect.FormsApp.Usecase
                 result.Age = face.FaceAttributes.Age;
                 result.Gender = face.FaceAttributes.Gender.ToString();
                 result.PredominantEmotion = DetectEmotion(face.FaceAttributes.Emotion);
-                // TODO
+                result.Hair = DetectHair(face.FaceAttributes.Hair);
+                result.Accessories = face.FaceAttributes.Accessories.Select(x => x.Type.ToString()).ToArray();
+                result.Glasses = face.FaceAttributes.Glasses?.ToString();
+                result.Smile = face.FaceAttributes.Smile;
 
                 return result;
             }
@@ -102,6 +105,27 @@ namespace FaceDetect.FormsApp.Usecase
             }
 
             return maxEmotion.Name;
+        }
+
+        private static string DetectHair(Hair hair)
+        {
+            if (hair.HairColor.Count == 0)
+            {
+                return hair.Invisible ? "Invisible" : "Bald";
+            }
+
+            var max = 0d;
+            var maxColor = HairColorType.Unknown;
+            foreach (var hairColor in hair.HairColor)
+            {
+                if (hairColor.Confidence > max)
+                {
+                    max = hairColor.Confidence;
+                    maxColor = hairColor.Color;
+                }
+            }
+
+            return maxColor.ToString();
         }
     }
 }

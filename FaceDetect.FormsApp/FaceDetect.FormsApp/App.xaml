@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:sd="clr-namespace:Smart.Forms.Data;assembly=Smart.Forms"
              xmlns:resources="clr-namespace:FaceDetect.FormsApp.Resources;assembly=FaceDetect.FormsApp"
+             xmlns:converters="clr-namespace:FaceDetect.FormsApp.Converters;assembly=FaceDetect.FormsApp"
              x:Class="FaceDetect.FormsApp.App">
     <Application.Resources>
 
@@ -41,6 +42,8 @@
             <!-- Basic -->
 
             <sd:ReverseConverter x:Key="ReverseConverter" />
+
+            <converters:StringJoinConverter x:Key="StringJoinConverter" />
 
             <!-- ================================================================================ -->
             <!-- Layout -->

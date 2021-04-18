@@ -43,16 +43,16 @@
                    Text="{Binding Result.Value.PredominantEmotion, StringFormat='Emotion: {0}'}" />
             <Label Grid.Row="4"
                    Style="{StaticResource DefaultLabel}"
-                   Text="Result" />
+                   Text="{Binding Result.Value.Hair, StringFormat='Hair: {0}'}" />
             <Label Grid.Row="5"
                    Style="{StaticResource DefaultLabel}"
-                   Text="Result" />
+                   Text="{Binding Result.Value.Accessories, StringFormat='Accessories: {0}', Converter={StaticResource StringJoinConverter}}" />
             <Label Grid.Row="6"
                    Style="{StaticResource DefaultLabel}"
-                   Text="Result" />
+                   Text="{Binding Result.Value.Glasses, StringFormat='Glasses: {0}'}" />
             <Label Grid.Row="7"
                    Style="{StaticResource DefaultLabel}"
-                   Text="Result" />
+                   Text="{Binding Result.Value.Smile, StringFormat='Smile: {0}'}" />
         </Grid>
 
         <!-- Function -->
