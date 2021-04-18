@@ -30,6 +30,7 @@ namespace FaceDetect.FormsApp.Usecase
             this.dialog = dialog;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031", Justification = "Ignore")]
         public async ValueTask<DetectResult> DetectAsync(byte[] image)
         {
             try

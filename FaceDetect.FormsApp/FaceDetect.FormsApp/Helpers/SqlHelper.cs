@@ -7,7 +7,6 @@ namespace FaceDetect.FormsApp.Helpers
 
     using Smart;
     using Smart.Data.Mapper.Attributes;
-    using Smart.Data.Mapper.Builders;
     using Smart.Data.Mapper.Builders.Metadata;
 
     public static class SqlHelper
