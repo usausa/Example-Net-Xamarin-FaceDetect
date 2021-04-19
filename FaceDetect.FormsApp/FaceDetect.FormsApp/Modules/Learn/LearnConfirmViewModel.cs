@@ -60,7 +60,7 @@ namespace FaceDetect.FormsApp.Modules.Learn
         {
             using (dialog.Loading("Learning"))
             {
-                await faceDetectUsecase.LearnAsync(Context.Value.Person.Id, image);
+                await faceDetectUsecase.LearnAsync(Context.Value.Person.Id.ToString(), image);
             }
 
             if (await dialog.Confirm("Add more picture to learn ?"))

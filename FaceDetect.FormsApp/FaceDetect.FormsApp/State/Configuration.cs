@@ -15,5 +15,11 @@ namespace FaceDetect.FormsApp.State
             get => Preferences.Get(nameof(ApiEndPoint), string.Empty);
             set => Preferences.Set(nameof(ApiEndPoint), value);
         }
+
+        public string GroupId
+        {
+            get => Preferences.Get(nameof(GroupId), string.Empty);
+            set => Preferences.Set(nameof(GroupId), value);
+        }
     }
 }

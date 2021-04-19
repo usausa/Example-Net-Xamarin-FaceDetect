@@ -2,6 +2,7 @@ namespace FaceDetect.FormsApp.Usecase
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Reflection;
@@ -39,6 +40,7 @@ namespace FaceDetect.FormsApp.Usecase
         {
             try
             {
+                using var loading = dialog.Loading("Detecting");
                 using var client = new FaceClient(new ApiKeyServiceClientCredentials(configuration.ApiKey)) { Endpoint = configuration.ApiEndPoint };
                 await using var stream = new MemoryStream(image);
 
@@ -65,12 +67,14 @@ namespace FaceDetect.FormsApp.Usecase
                     recognitionModel: RecognitionModel.Recognition03);
                 if (detectedFaces.Body.Count == 0)
                 {
+                    loading.Dispose();
                     await dialog.Information("Detect failed.");
                     return null;
                 }
 
                 if (detectedFaces.Body.Count > 1)
                 {
+                    loading.Dispose();
                     await dialog.Information($"Detect {detectedFaces.Body.Count} faces and result is 1st face.");
                 }
 
@@ -137,22 +141,83 @@ namespace FaceDetect.FormsApp.Usecase
         // Learn
         //--------------------------------------------------------------------------------
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1801", Justification = "TODO Delete")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1822", Justification = "TODO Delete")]
-#pragma warning disable IDE0060 // TODO Delete
-        public async ValueTask<bool> LearnAsync(Guid id, byte[] image)
+        public async ValueTask<bool> LearnAsync(string id, byte[] image)
         {
-            // TODO
-            await Task.Delay(0);
+            try
+            {
+                using var loading = dialog.Loading("Learning");
+                using var client = new FaceClient(new ApiKeyServiceClientCredentials(configuration.ApiKey)) { Endpoint = configuration.ApiEndPoint };
+                await using var stream = new MemoryStream(image);
 
-            return true;
+                var groupId = await PrepareGroupAsync(client, RecognitionModel.Recognition04);
+
+                var person = await client.PersonGroupPerson.CreateAsync(groupId, id);
+
+                await client.PersonGroupPerson.AddFaceFromStreamWithHttpMessagesAsync(
+                    groupId,
+                    person.PersonId,
+                    stream,
+                    detectionModel: DetectionModel.Detection03);
+
+                await client.PersonGroup.TrainAsync(groupId);
+
+                var watch = Stopwatch.StartNew();
+                while (true)
+                {
+                    await Task.Delay(500);
+
+                    var status = await client.PersonGroup.GetTrainingStatusAsync(groupId);
+                    if (status.Status == TrainingStatusType.Succeeded)
+                    {
+                        break;
+                    }
+
+                    if (status.Status == TrainingStatusType.Failed)
+                    {
+                        loading.Dispose();
+                        await dialog.Information("Learning failed.");
+                        return false;
+                    }
+
+                    if (watch.ElapsedMilliseconds > 10_000)
+                    {
+                        loading.Dispose();
+                        await dialog.Information("Learning timeout.");
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                await dialog.Information("Error", e.ToString());
+                return false;
+            }
         }
-#pragma warning restore IDE0060
 
         //--------------------------------------------------------------------------------
         // Identify
         //--------------------------------------------------------------------------------
 
         // TODO
+
+        //--------------------------------------------------------------------------------
+        // Helper
+        //--------------------------------------------------------------------------------
+
+        private async ValueTask<string> PrepareGroupAsync(FaceClient client, string recognitionModel)
+        {
+            var groupId = configuration.GroupId;
+            if (String.IsNullOrEmpty(groupId))
+            {
+                groupId = Guid.NewGuid().ToString();
+                configuration.GroupId = groupId;
+            }
+
+            await client.PersonGroup.CreateWithHttpMessagesAsync(groupId, groupId, recognitionModel: recognitionModel);
+
+            return groupId;
+        }
     }
 }
