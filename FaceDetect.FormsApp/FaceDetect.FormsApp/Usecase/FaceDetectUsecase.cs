@@ -201,7 +201,63 @@ namespace FaceDetect.FormsApp.Usecase
         // Identify
         //--------------------------------------------------------------------------------
 
-        // TODO
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031", Justification = "Ignore")]
+        public async ValueTask<FaceDetect.FormsApp.Models.Result.IdentifyResult> IdentifyAsync(byte[] image)
+        {
+            try
+            {
+                using var loading = dialog.Loading("Identifying");
+                using var client = new FaceClient(new ApiKeyServiceClientCredentials(configuration.ApiKey)) { Endpoint = configuration.ApiEndPoint };
+                await using var stream = new MemoryStream(image);
+
+                var groupId = await PrepareGroupAsync(client, RecognitionModel.Recognition04);
+
+                var faces = await client.Face.DetectWithStreamWithHttpMessagesAsync(
+                    stream,
+                    recognitionModel: RecognitionModel.Recognition04,
+                    detectionModel: DetectionModel.Detection03);
+                if (faces.Body.Count == 0)
+                {
+                    loading.Dispose();
+                    await dialog.Information("Face detect failed.");
+                    return null;
+                }
+
+                if (faces.Body.Count > 1)
+                {
+                    loading.Dispose();
+                    await dialog.Information("Multiple people detected.");
+                    return null;
+                }
+
+                // ReSharper disable once PossibleInvalidOperationException
+                var faceIds = new List<Guid>
+                {
+                    faces.Body[0].FaceId.Value
+                };
+
+                var identifyResults = await client.Face.IdentifyAsync(faceIds, groupId);
+                if (identifyResults.Count == 0)
+                {
+                    loading.Dispose();
+                    await dialog.Information("Identify failed.");
+                    return null;
+                }
+
+                var person = await client.PersonGroupPerson.GetAsync(groupId, identifyResults[0].Candidates[0].PersonId);
+
+                return new FaceDetect.FormsApp.Models.Result.IdentifyResult
+                {
+                    Id = Guid.Parse(person.Name),
+                    Confidence = identifyResults[0].Candidates[0].Confidence
+                };
+            }
+            catch (Exception e)
+            {
+                await dialog.Information("Error", e.ToString());
+                return null;
+            }
+        }
 
         //--------------------------------------------------------------------------------
         // Helper

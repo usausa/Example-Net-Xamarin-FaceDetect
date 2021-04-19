@@ -9,8 +9,49 @@
              sr:BindingContextResolver.Type="{x:Type modules:IdentifyResultViewModel}"
              shell:ShellProperty.Title="Identify">
 
-    <StackLayout>
-        <Label Text="Hello Xamarin.Forms!" />
-    </StackLayout>
+    <Grid Style="{StaticResource FillGrid}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0"
+              Style="{StaticResource FillGrid}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Image Grid.Row="0"
+                   Style="{StaticResource FillImage}"
+                   Source="{Binding Image.Value}" />
+
+            <Label Grid.Row="1"
+                   Style="{StaticResource DefaultLabel}"
+                   Text="{Binding Person.Value.Name, StringFormat='Name: {0}'}" />
+            <Label Grid.Row="2"
+                   Style="{StaticResource DefaultLabel}"
+                   Text="{Binding Result.Value.Confidence, StringFormat='Confidence: {0}'}" />
+        </Grid>
+
+        <!-- Function -->
+        <Grid Grid.Row="1"
+              Style="{StaticResource FunctionGrid}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0"
+                    Style="{StaticResource FunctionButton}"
+                    Command="{Binding RetryCommand}"
+                    Text="Retry" />
+            <Button Grid.Column="1"
+                    Style="{StaticResource FunctionButton}"
+                    Command="{Binding CloseCommand}"
+                    Text="Close" />
+        </Grid>
+    </Grid>
+
 
 </ContentView>

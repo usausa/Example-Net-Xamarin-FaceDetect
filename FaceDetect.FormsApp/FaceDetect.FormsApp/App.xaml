@@ -142,7 +142,7 @@
             <Style x:Key="MenuButton" TargetType="Button">
                 <Setter Property="BackgroundColor" Value="{StaticResource MetroTeal}" />
                 <Setter Property="TextColor" Value="White" />
-                <Setter Property="FontSize" Value="{StaticResource BigSize}" />
+                <Setter Property="FontSize" Value="{StaticResource ExtraBigSize}" />
                 <Setter Property="Margin" Value="3" />
             </Style>
 
