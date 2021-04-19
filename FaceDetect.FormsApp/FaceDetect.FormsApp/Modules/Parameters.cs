@@ -1,7 +1,5 @@
 namespace FaceDetect.FormsApp.Modules
 {
-    using FaceDetect.FormsApp.Models.Entity;
-
     using Smart.Navigation;
 
     public static class Parameters
