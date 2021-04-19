@@ -3,45 +3,27 @@ namespace FaceDetect.FormsApp.Modules.Learn
     using System.Threading.Tasks;
     using System.Windows.Input;
 
-    using FaceDetect.FormsApp.Components.Dialog;
     using FaceDetect.FormsApp.Messaging;
-    using FaceDetect.FormsApp.Models.Entity;
-    using FaceDetect.FormsApp.Usecase;
 
     using Smart.Navigation;
+    using Smart.Navigation.Plugins.Scope;
 
     public class LearnCameraViewModel : AppViewModelBase
     {
-        private readonly IApplicationDialog dialog;
-
-        private readonly FaceDetectUsecase faceDetectUsecase;
-
-        private PersonEntity entity;
+        [Scope]
+        public LearnContext Context { get; set; }
 
         public CameraCaptureRequest CaptureRequest { get; } = new();
 
         public ICommand BackCommand { get; }
-        public ICommand LearnCommand { get; }
+        public ICommand ShotCommand { get; }
 
         public LearnCameraViewModel(
-            ApplicationState applicationState,
-            IApplicationDialog dialog,
-            FaceDetectUsecase faceDetectUsecase)
+            ApplicationState applicationState)
             : base(applicationState)
         {
-            this.dialog = dialog;
-            this.faceDetectUsecase = faceDetectUsecase;
-
             BackCommand = MakeAsyncCommand(OnNotifyBackAsync);
-            LearnCommand = MakeAsyncCommand(LearnAsync);
-        }
-
-        public override void OnNavigatedTo(INavigationContext context)
-        {
-            if (!context.Attribute.IsRestore())
-            {
-                entity = context.Parameter.GetPerson();
-            }
+            ShotCommand = MakeAsyncCommand(ShotAsync);
         }
 
         protected override Task OnNotifyBackAsync()
@@ -49,19 +31,12 @@ namespace FaceDetect.FormsApp.Modules.Learn
             return Navigator.ForwardAsync(ViewId.LearnList);
         }
 
-        private async Task LearnAsync()
+        private async Task ShotAsync()
         {
             var image = await CaptureRequest.CaptureAsync();
-            if (image is null)
+            if (image is not null)
             {
-                return;
-            }
-
-            // TODO
-            if ((await faceDetectUsecase.LearnAsync(entity.Id, image)) &&
-                !await dialog.Confirm("Re learn ?"))
-            {
-                await Navigator.ForwardAsync(ViewId.LearnList);
+                await Navigator.ForwardAsync(ViewId.LearnConfirm, Parameters.MakeImage(image));
             }
         }
     }

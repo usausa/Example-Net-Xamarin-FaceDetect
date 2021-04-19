@@ -30,6 +30,7 @@
             </Grid.RowDefinitions>
 
             <Image Grid.Row="0"
+                   Style="{StaticResource FillImage}"
                    Source="{Binding Image.Value}" />
 
             <Label Grid.Row="1"

@@ -10,6 +10,7 @@ namespace FaceDetect.FormsApp.Modules
         LearnList,
         LearnEdit,
         LearnCamera,
+        LearnConfirm,
 
         IdentifyCamera,
         IdentifyResult,

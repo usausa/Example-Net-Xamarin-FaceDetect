@@ -11,12 +11,16 @@ namespace FaceDetect.FormsApp.Modules.Learn
     using Smart.Collections.Generic;
     using Smart.Forms.ViewModels;
     using Smart.Navigation;
+    using Smart.Navigation.Plugins.Scope;
 
     public class LearnListViewModel : AppViewModelBase
     {
         private readonly IApplicationDialog dialog;
 
         private readonly DataService dataService;
+
+        [Scope]
+        public LearnContext Context { get; set; }
 
         public ObservableCollection<PersonEntity> Items { get; } = new();
 
@@ -37,10 +41,22 @@ namespace FaceDetect.FormsApp.Modules.Learn
             this.dataService = dataService;
 
             DeleteCommand = MakeAsyncCommand<PersonEntity>(DeleteAsync);
-            EditCommand = MakeAsyncCommand<PersonEntity>(x => Navigator.ForwardAsync(ViewId.LearnEdit, Parameters.MakePerson(x)));
-            LearnCommand = MakeAsyncCommand<PersonEntity>(x => Navigator.ForwardAsync(ViewId.LearnCamera, Parameters.MakePerson(x)));
+            EditCommand = MakeAsyncCommand<PersonEntity>(async x =>
+            {
+                Context.Person = x;
+                await Navigator.ForwardAsync(ViewId.LearnEdit);
+            });
+            LearnCommand = MakeAsyncCommand<PersonEntity>(async x =>
+            {
+                Context.Person = x;
+                await Navigator.ForwardAsync(ViewId.LearnCamera);
+            });
             BackCommand = MakeAsyncCommand(OnNotifyBackAsync);
-            AddCommand = MakeAsyncCommand(() => Navigator.ForwardAsync(ViewId.LearnEdit));
+            AddCommand = MakeAsyncCommand(async () =>
+            {
+                Context.Person = null;
+                await Navigator.ForwardAsync(ViewId.LearnEdit);
+            });
         }
 
         public override async void OnNavigatedTo(INavigationContext context)

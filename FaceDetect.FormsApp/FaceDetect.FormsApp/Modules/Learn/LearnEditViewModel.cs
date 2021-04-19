@@ -9,12 +9,14 @@ namespace FaceDetect.FormsApp.Modules.Learn
 
     using Smart.ComponentModel;
     using Smart.Navigation;
+    using Smart.Navigation.Plugins.Scope;
 
     public class LearnEditViewModel : AppViewModelBase
     {
         private readonly DataService dataService;
 
-        private PersonEntity entity;
+        [Scope]
+        public LearnContext Context { get; set; }
 
         public NotificationValue<string> Name { get; } = new();
 
@@ -36,10 +38,9 @@ namespace FaceDetect.FormsApp.Modules.Learn
         {
             if (!context.Attribute.IsRestore())
             {
-                entity = context.Parameter.GetPersonOrDefault();
-                if (entity is not null)
+                if (Context.Person is not null)
                 {
-                    Name.Value = entity.Name;
+                    Name.Value = Context.Person.Name;
                 }
             }
         }
@@ -51,14 +52,14 @@ namespace FaceDetect.FormsApp.Modules.Learn
 
         private async Task UpdateAsync()
         {
-            if (entity is null)
+            if (Context.Person is null)
             {
                 await dataService.InsertPerson(new PersonEntity { Id = Guid.NewGuid(),  Name = Name.Value });
             }
             else
             {
-                entity.Name = Name.Value;
-                await dataService.UpdatePerson(entity);
+                Context.Person.Name = Name.Value;
+                await dataService.UpdatePerson(Context.Person);
             }
 
             await Navigator.ForwardAsync(ViewId.LearnList);

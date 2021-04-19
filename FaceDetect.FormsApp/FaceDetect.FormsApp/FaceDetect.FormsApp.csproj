@@ -52,4 +52,10 @@
     <PackageReference Include="ZXing.Net.Mobile.Forms" Version="2.4.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Update="Modules\Learn\LearnConfirmView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>
