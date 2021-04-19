@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:si="clr-namespace:Smart.Forms.Interactivity;assembly=Smart.Forms"
              xmlns:sr="clr-namespace:Smart.Forms.Resolver;assembly=Smart.Forms"
              xmlns:shell="clr-namespace:FaceDetect.FormsApp.Shell;assembly=FaceDetect.FormsApp"
              xmlns:modules="clr-namespace:FaceDetect.FormsApp.Modules.Learn;assembly=FaceDetect.FormsApp"
@@ -9,8 +10,41 @@
              sr:BindingContextResolver.Type="{x:Type modules:LearnEditViewModel}"
              shell:ShellProperty.Title="Learn">
 
-    <StackLayout>
-        <Label Text="Hello Xamarin.Forms!" />
-    </StackLayout>
+    <Grid Style="{StaticResource FillGrid}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Content -->
+        <StackLayout Grid.Row="0"
+                     Style="{StaticResource FillLayout}">
+            <Entry Style="{StaticResource DefaultEntry}"
+                   Text="{Binding Name.Value}"
+                   Placeholder="Name">
+                <Entry.Behaviors>
+                    <si:DefaultFocusBehavior />
+                </Entry.Behaviors>
+            </Entry>
+        </StackLayout>
+
+        <!-- Function -->
+        <Grid Grid.Row="1"
+              Style="{StaticResource FunctionGrid}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0"
+                    Style="{StaticResource FunctionButton}"
+                    Command="{Binding BackCommand}"
+                    Text="Back" />
+            <Button Grid.Column="1"
+                    Style="{StaticResource FunctionButton}"
+                    Command="{Binding UpdateCommand}"
+                    Text="Update" />
+        </Grid>
+    </Grid>
 
 </ContentView>

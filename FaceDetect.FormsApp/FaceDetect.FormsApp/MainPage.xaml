@@ -10,8 +10,7 @@
              x:DataType="{x:Type local:MainPageViewModel}"
              sr:BindingContextResolver.Type="{x:Type local:MainPageViewModel}"
              ios:Page.UseSafeArea="true"
-             IsBusy="{Binding ApplicationState.IsBusy}"
-             Visual="Material">
+             IsBusy="{Binding ApplicationState.IsBusy}">
 
     <ContentPage.Behaviors>
         <shell:ShellUpdateBehavior Navigator="{Binding Navigator, Mode=OneTime}" />

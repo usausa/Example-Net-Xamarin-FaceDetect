@@ -4,13 +4,77 @@
              xmlns:sr="clr-namespace:Smart.Forms.Resolver;assembly=Smart.Forms"
              xmlns:shell="clr-namespace:FaceDetect.FormsApp.Shell;assembly=FaceDetect.FormsApp"
              xmlns:modules="clr-namespace:FaceDetect.FormsApp.Modules.Learn;assembly=FaceDetect.FormsApp"
+             xmlns:entity="clr-namespace:FaceDetect.FormsApp.Models.Entity;assembly=FaceDetect.FormsApp" xmlns:interactivity="clr-namespace:Smart.Forms.Interactivity;assembly=Smart.Forms"
              x:Class="FaceDetect.FormsApp.Modules.Learn.LearnListView"
              x:DataType="{x:Type modules:LearnListViewModel}"
              sr:BindingContextResolver.Type="{x:Type modules:LearnListViewModel}"
              shell:ShellProperty.Title="Learn">
 
-    <StackLayout>
-        <Label Text="Hello Xamarin.Forms!" />
-    </StackLayout>
+    <Grid Style="{StaticResource FillGrid}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Content -->
+        <StackLayout Grid.Row="0"
+                     Style="{StaticResource FillLayout}">
+            <ListView ItemsSource="{Binding Items}">
+                <ListView.Behaviors>
+                    <interactivity:ListViewSelectedToCommandBehavior />
+                </ListView.Behaviors>
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="entity:PersonEntity">
+                        <ViewCell>
+                            <Grid Style="{StaticResource FillGrid}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0"
+                                       Style="{StaticResource ListItemLabel}"
+                                       Text="{Binding Name}" />
+                                <Button Grid.Column="1"
+                                        Style="{StaticResource ListItemButtonDanger}"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type modules:LearnListViewModel}}, Path=DeleteCommand}"
+                                        CommandParameter="{Binding}"
+                                        Text="Del" />
+                                <Button Grid.Column="2"
+                                        Style="{StaticResource ListItemButton}"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type modules:LearnListViewModel}}, Path=EditCommand}"
+                                        CommandParameter="{Binding}"
+                                        Text="Edit" />
+                                <Button Grid.Column="3"
+                                        Style="{StaticResource ListItemButton}"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type modules:LearnListViewModel}}, Path=LearnCommand}"
+                                        CommandParameter="{Binding}"
+                                        Text="Learn" />
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+
+        <!-- Function -->
+        <Grid Grid.Row="1"
+              Style="{StaticResource FunctionGrid}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0"
+                    Style="{StaticResource FunctionButton}"
+                    Command="{Binding BackCommand}"
+                    Text="Back" />
+            <Button Grid.Column="1"
+                    Style="{StaticResource FunctionButton}"
+                    Command="{Binding AddCommand}"
+                    Text="Add" />
+        </Grid>
+    </Grid>
 
 </ContentView>

@@ -30,6 +30,10 @@ namespace FaceDetect.FormsApp.Usecase
             this.dialog = dialog;
         }
 
+        //--------------------------------------------------------------------------------
+        // Detect
+        //--------------------------------------------------------------------------------
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031", Justification = "Ignore")]
         public async ValueTask<DetectResult> DetectAsync(byte[] image)
         {
@@ -128,5 +132,27 @@ namespace FaceDetect.FormsApp.Usecase
 
             return maxColor;
         }
+
+        //--------------------------------------------------------------------------------
+        // Learn
+        //--------------------------------------------------------------------------------
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1801", Justification = "TODO Delete")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1822", Justification = "TODO Delete")]
+#pragma warning disable IDE0060 // TODO Delete
+        public async ValueTask<bool> LearnAsync(Guid id, byte[] image)
+        {
+            // TODO
+            await Task.Delay(0);
+
+            return true;
+        }
+#pragma warning restore IDE0060
+
+        //--------------------------------------------------------------------------------
+        // Identify
+        //--------------------------------------------------------------------------------
+
+        // TODO
     }
 }

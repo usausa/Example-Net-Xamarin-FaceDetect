@@ -18,6 +18,8 @@ namespace FaceDetect.FormsApp.Droid
     using Smart.Forms.Resolver;
     using Smart.Resolver;
 
+    using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
+
     [Activity(
         Name = "FaceDetect.app.MainActivity",
         Icon = "@mipmap/icon",
@@ -52,10 +54,12 @@ namespace FaceDetect.FormsApp.Droid
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             Xamarin.Forms.Forms.Init(this, savedInstanceState);
-            Xamarin.Forms.FormsMaterial.Init(this, savedInstanceState);
 
             // Boot
             LoadApplication(new App(new ComponentProvider(this)));
+
+            Xamarin.Forms.Application.Current.On<Xamarin.Forms.PlatformConfiguration.Android>()
+                .UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Resize);
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)

@@ -52,6 +52,9 @@ namespace FaceDetect.FormsApp.Services
         public ValueTask<int> InsertPerson(PersonEntity entity) =>
             provider.UsingAsync(con => con.ExecuteAsync(SqlInsert<PersonEntity>.Values(), entity));
 
+        public ValueTask<int> UpdatePerson(PersonEntity entity) =>
+            provider.UsingAsync(con => con.ExecuteAsync(SqlUpdate<PersonEntity>.ByKey(), entity));
+
         public ValueTask<int> DeletePerson(PersonEntity entity) =>
             provider.UsingAsync(con => con.ExecuteAsync(SqlDelete<PersonEntity>.ByKey(), entity));
     }

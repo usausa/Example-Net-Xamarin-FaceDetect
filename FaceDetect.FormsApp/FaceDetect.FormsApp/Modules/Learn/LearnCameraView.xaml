@@ -3,14 +3,46 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:sr="clr-namespace:Smart.Forms.Resolver;assembly=Smart.Forms"
              xmlns:shell="clr-namespace:FaceDetect.FormsApp.Shell;assembly=FaceDetect.FormsApp"
+             xmlns:behaviors="clr-namespace:FaceDetect.FormsApp.Behaviors;assembly=FaceDetect.FormsApp"
              xmlns:modules="clr-namespace:FaceDetect.FormsApp.Modules.Learn;assembly=FaceDetect.FormsApp"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              x:Class="FaceDetect.FormsApp.Modules.Learn.LearnCameraView"
              x:DataType="{x:Type modules:LearnCameraViewModel}"
              sr:BindingContextResolver.Type="{x:Type modules:LearnCameraViewModel}"
              shell:ShellProperty.Title="Learn">
 
-    <StackLayout>
-        <Label Text="Hello Xamarin.Forms!" />
-    </StackLayout>
+    <Grid Style="{StaticResource FillGrid}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Content -->
+        <xct:CameraView Grid.Row="0"
+                        HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                        CameraOptions="Front">
+            <xct:CameraView.Behaviors>
+                <behaviors:CameraCaptureBehavior Request="{Binding CaptureRequest}" />
+            </xct:CameraView.Behaviors>
+        </xct:CameraView>
+
+        <!-- Function -->
+        <Grid Grid.Row="1"
+              Style="{StaticResource FunctionGrid}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0"
+                    Style="{StaticResource FunctionButton}"
+                    Command="{Binding BackCommand}"
+                    Text="Back" />
+            <Button Grid.Column="1"
+                    Style="{StaticResource FunctionButton}"
+                    Command="{Binding LearnCommand}"
+                    Text="Learn" />
+        </Grid>
+    </Grid>
 
 </ContentView>
