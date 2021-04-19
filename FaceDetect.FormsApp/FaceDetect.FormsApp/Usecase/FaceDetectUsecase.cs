@@ -141,6 +141,7 @@ namespace FaceDetect.FormsApp.Usecase
         // Learn
         //--------------------------------------------------------------------------------
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031", Justification = "Ignore")]
         public async ValueTask<bool> LearnAsync(string id, byte[] image)
         {
             try
