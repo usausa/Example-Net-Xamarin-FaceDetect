@@ -3,6 +3,7 @@ namespace FaceDetect.FormsApp.Usecase
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Drawing;
     using System.IO;
     using System.Linq;
     using System.Reflection;
@@ -88,6 +89,7 @@ namespace FaceDetect.FormsApp.Usecase
                 result.Accessories = face.FaceAttributes.Accessories.Select(x => x.Type.ToString()).ToArray();
                 result.Glasses = face.FaceAttributes.Glasses?.ToString();
                 result.Smile = face.FaceAttributes.Smile;
+                result.FaceRectangle = new Rectangle(face.FaceRectangle.Left, face.FaceRectangle.Top, face.FaceRectangle.Width, face.FaceRectangle.Height);
 
                 return result;
             }
@@ -230,10 +232,12 @@ namespace FaceDetect.FormsApp.Usecase
                     return null;
                 }
 
+                var face = faces.Body[0];
+
                 // ReSharper disable once PossibleInvalidOperationException
                 var faceIds = new List<Guid>
                 {
-                    faces.Body[0].FaceId.Value
+                    face.FaceId.Value
                 };
 
                 var identifyResults = await client.Face.IdentifyAsync(faceIds, groupId);
@@ -249,7 +253,8 @@ namespace FaceDetect.FormsApp.Usecase
                 return new FaceDetect.FormsApp.Models.Result.IdentifyResult
                 {
                     Id = Guid.Parse(person.Name),
-                    Confidence = identifyResults[0].Candidates[0].Confidence
+                    Confidence = identifyResults[0].Candidates[0].Confidence,
+                    FaceRectangle = new Rectangle(face.FaceRectangle.Left, face.FaceRectangle.Top, face.FaceRectangle.Width, face.FaceRectangle.Height)
                 };
             }
             catch (Exception e)

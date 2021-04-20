@@ -60,10 +60,10 @@ namespace FaceDetect.FormsApp.Behaviors
 
         private static void HandleRequestPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            ((CameraCaptureBehavior)bindable).OnMessengerPropertyChanged(oldValue as IEventRequest<CameraCaptureEventArgs>, newValue as IEventRequest<CameraCaptureEventArgs>);
+            ((CameraCaptureBehavior)bindable).OnRequestPropertyChanged(oldValue as IEventRequest<CameraCaptureEventArgs>, newValue as IEventRequest<CameraCaptureEventArgs>);
         }
 
-        private void OnMessengerPropertyChanged(IEventRequest<CameraCaptureEventArgs> oldValue, IEventRequest<CameraCaptureEventArgs> newValue)
+        private void OnRequestPropertyChanged(IEventRequest<CameraCaptureEventArgs> oldValue, IEventRequest<CameraCaptureEventArgs> newValue)
         {
             if (oldValue == newValue)
             {

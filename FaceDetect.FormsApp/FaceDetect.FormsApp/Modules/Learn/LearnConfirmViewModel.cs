@@ -1,17 +1,15 @@
 namespace FaceDetect.FormsApp.Modules.Learn
 {
-    using System.IO;
     using System.Threading.Tasks;
     using System.Windows.Input;
 
     using FaceDetect.FormsApp.Components.Dialog;
+    using FaceDetect.FormsApp.Messaging;
     using FaceDetect.FormsApp.Usecase;
 
     using Smart.ComponentModel;
     using Smart.Navigation;
     using Smart.Navigation.Plugins.Scope;
-
-    using Xamarin.Forms;
 
     public class LearnConfirmViewModel : AppViewModelBase
     {
@@ -24,7 +22,7 @@ namespace FaceDetect.FormsApp.Modules.Learn
         [Scope]
         public NotificationValue<LearnContext> Context { get; } = new();
 
-        public NotificationValue<ImageSource> Image { get; } = new();
+        public LoadImageRequest LoadImageRequest { get; } = new();
 
         public ICommand BackCommand { get; }
         public ICommand LearnCommand { get; }
@@ -47,7 +45,7 @@ namespace FaceDetect.FormsApp.Modules.Learn
             if (!context.Attribute.IsRestore())
             {
                 image = context.Parameter.GetImage();
-                Image.Value = ImageSource.FromStream(() => new MemoryStream(image));
+                LoadImageRequest.Load(image);
             }
         }
 

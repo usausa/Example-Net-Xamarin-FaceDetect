@@ -1,9 +1,9 @@
 namespace FaceDetect.FormsApp.Modules.Identify
 {
-    using System.IO;
     using System.Threading.Tasks;
     using System.Windows.Input;
 
+    using FaceDetect.FormsApp.Messaging;
     using FaceDetect.FormsApp.Models.Entity;
     using FaceDetect.FormsApp.Models.Result;
     using FaceDetect.FormsApp.Services;
@@ -13,17 +13,16 @@ namespace FaceDetect.FormsApp.Modules.Identify
     using Smart.Forms.ViewModels;
     using Smart.Navigation;
 
-    using Xamarin.Forms;
-
     public class IdentifyResultViewModel : AppViewModelBase
     {
         private readonly DataService dataService;
 
         private readonly FaceDetectUsecase faceDetectUsecase;
 
-        public NotificationValue<ImageSource> Image { get; } = new();
         public NotificationValue<IdentifyResult> Result { get; } = new();
         public NotificationValue<PersonEntity> Person { get; } = new();
+
+        public LoadImageRequest LoadImageRequest { get; } = new();
 
         public ICommand RetryCommand { get; }
         public ICommand CloseCommand { get; }
@@ -46,7 +45,7 @@ namespace FaceDetect.FormsApp.Modules.Identify
             if (!context.Attribute.IsRestore())
             {
                 var image = context.Parameter.GetImage();
-                Image.Value = ImageSource.FromStream(() => new MemoryStream(image));
+                LoadImageRequest.Load(image);
 
                 await Navigator.PostActionAsync(() => BusyState.UsingAsync(async () =>
                 {

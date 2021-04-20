@@ -1,5 +1,7 @@
 namespace FaceDetect.FormsApp.Models.Result
 {
+    using System.Drawing;
+
     public class DetectResult
     {
         public double? Age { get; set; }
@@ -15,5 +17,7 @@ namespace FaceDetect.FormsApp.Models.Result
         public string Glasses { get; set; }
 
         public double? Smile { get; set; }
+
+        public Rectangle FaceRectangle { get; set; }
     }
 }

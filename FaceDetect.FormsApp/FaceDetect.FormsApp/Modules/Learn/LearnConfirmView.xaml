@@ -4,6 +4,8 @@
              xmlns:sr="clr-namespace:Smart.Forms.Resolver;assembly=Smart.Forms"
              xmlns:shell="clr-namespace:FaceDetect.FormsApp.Shell;assembly=FaceDetect.FormsApp"
              xmlns:modules="clr-namespace:FaceDetect.FormsApp.Modules.Learn;assembly=FaceDetect.FormsApp"
+             xmlns:controls="clr-namespace:FaceDetect.FormsApp.Controls;assembly=FaceDetect.FormsApp"
+             xmlns:behaviors="clr-namespace:FaceDetect.FormsApp.Behaviors;assembly=FaceDetect.FormsApp"
              x:Class="FaceDetect.FormsApp.Modules.Learn.LearnConfirmView"
              x:DataType="{x:Type modules:LearnConfirmViewModel}"
              sr:BindingContextResolver.Type="{x:Type modules:LearnConfirmViewModel}"
@@ -27,9 +29,11 @@
                    Style="{StaticResource DefaultLabel}"
                    Text="{Binding Context.Value.Person.Name, StringFormat='Name: {0}'}" />
 
-            <Image Grid.Row="1"
-                   Style="{StaticResource FillImage}"
-                   Source="{Binding Image.Value}" />
+            <controls:FaceCanvasView Grid.Row="1">
+                <controls:FaceCanvasView.Behaviors>
+                    <behaviors:LoadImageBehavior Request="{Binding LoadImageRequest}" />
+                </controls:FaceCanvasView.Behaviors>
+            </controls:FaceCanvasView>
         </Grid>
 
         <!-- Function -->

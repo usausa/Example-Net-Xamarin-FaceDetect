@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:sr="clr-namespace:Smart.Forms.Resolver;assembly=Smart.Forms"
              xmlns:shell="clr-namespace:FaceDetect.FormsApp.Shell;assembly=FaceDetect.FormsApp"
+             xmlns:behaviors="clr-namespace:FaceDetect.FormsApp.Behaviors;assembly=FaceDetect.FormsApp"
+             xmlns:controls="clr-namespace:FaceDetect.FormsApp.Controls;assembly=FaceDetect.FormsApp"
              xmlns:modules="clr-namespace:FaceDetect.FormsApp.Modules.Identify;assembly=FaceDetect.FormsApp"
              x:Class="FaceDetect.FormsApp.Modules.Identify.IdentifyResultView"
              x:DataType="{x:Type modules:IdentifyResultViewModel}"
@@ -23,9 +25,12 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <Image Grid.Row="0"
-                   Style="{StaticResource FillImage}"
-                   Source="{Binding Image.Value}" />
+            <controls:FaceCanvasView Grid.Row="0"
+                                     FaceRectangle="{Binding Result.Value.FaceRectangle}">
+                <controls:FaceCanvasView.Behaviors>
+                    <behaviors:LoadImageBehavior Request="{Binding LoadImageRequest}" />
+                </controls:FaceCanvasView.Behaviors>
+            </controls:FaceCanvasView>
 
             <Label Grid.Row="1"
                    Style="{StaticResource DefaultLabel}"
