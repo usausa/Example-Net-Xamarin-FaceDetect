@@ -6,6 +6,7 @@ namespace FaceDetect.FormsApp.Modules.Identify
 
     using FaceDetect.FormsApp.Models.Entity;
     using FaceDetect.FormsApp.Models.Result;
+    using FaceDetect.FormsApp.Services;
     using FaceDetect.FormsApp.Usecase;
 
     using Smart.ComponentModel;
@@ -16,6 +17,8 @@ namespace FaceDetect.FormsApp.Modules.Identify
 
     public class IdentifyResultViewModel : AppViewModelBase
     {
+        private readonly DataService dataService;
+
         private readonly FaceDetectUsecase faceDetectUsecase;
 
         public NotificationValue<ImageSource> Image { get; } = new();
@@ -27,9 +30,11 @@ namespace FaceDetect.FormsApp.Modules.Identify
 
         public IdentifyResultViewModel(
             ApplicationState applicationState,
+            DataService dataService,
             FaceDetectUsecase faceDetectUsecase)
             : base(applicationState)
         {
+            this.dataService = dataService;
             this.faceDetectUsecase = faceDetectUsecase;
 
             RetryCommand = MakeAsyncCommand(OnNotifyBackAsync);
@@ -48,7 +53,7 @@ namespace FaceDetect.FormsApp.Modules.Identify
                     Result.Value = await faceDetectUsecase.IdentifyAsync(image);
                     if (Result.Value is not null)
                     {
-                        // TODO
+                        Person.Value = await dataService.QueryPersonAsync(Result.Value.Id);
                     }
                 }));
             }

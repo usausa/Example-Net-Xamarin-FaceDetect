@@ -80,7 +80,7 @@ namespace FaceDetect.FormsApp.Modules.Learn
                 return;
             }
 
-            await dataService.DeletePerson(entity);
+            await dataService.DeletePerson(entity.Id);
 
             Items.Remove(entity);
         }

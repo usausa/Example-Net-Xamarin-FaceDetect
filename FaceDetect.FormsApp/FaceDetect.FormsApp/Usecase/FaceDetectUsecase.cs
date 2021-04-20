@@ -272,7 +272,14 @@ namespace FaceDetect.FormsApp.Usecase
                 configuration.GroupId = groupId;
             }
 
-            await client.PersonGroup.CreateWithHttpMessagesAsync(groupId, groupId, recognitionModel: recognitionModel);
+            try
+            {
+                await client.PersonGroup.CreateWithHttpMessagesAsync(groupId, groupId, recognitionModel: recognitionModel);
+            }
+            catch
+            {
+                // Do Nothing
+            }
 
             return groupId;
         }

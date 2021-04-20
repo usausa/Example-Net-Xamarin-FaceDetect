@@ -1,5 +1,6 @@
 namespace FaceDetect.FormsApp.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Threading.Tasks;
@@ -49,13 +50,16 @@ namespace FaceDetect.FormsApp.Services
         public ValueTask<List<PersonEntity>> QueryPersonListAsync() =>
             provider.UsingAsync(con => con.QueryListAsync<PersonEntity>(SqlSelect<PersonEntity>.Build(order: "Name")));
 
+        public ValueTask<PersonEntity> QueryPersonAsync(Guid id) =>
+            provider.UsingAsync(con => con.QueryFirstOrDefaultAsync<PersonEntity>(SqlSelect<PersonEntity>.ByKey(), new { Id = id }));
+
         public ValueTask<int> InsertPerson(PersonEntity entity) =>
             provider.UsingAsync(con => con.ExecuteAsync(SqlInsert<PersonEntity>.Values(), entity));
 
         public ValueTask<int> UpdatePerson(PersonEntity entity) =>
             provider.UsingAsync(con => con.ExecuteAsync(SqlUpdate<PersonEntity>.ByKey(), entity));
 
-        public ValueTask<int> DeletePerson(PersonEntity entity) =>
-            provider.UsingAsync(con => con.ExecuteAsync(SqlDelete<PersonEntity>.ByKey(), entity));
+        public ValueTask<int> DeletePerson(Guid id) =>
+            provider.UsingAsync(con => con.ExecuteAsync(SqlDelete<PersonEntity>.ByKey(),  new { Id = id }));
     }
 }
