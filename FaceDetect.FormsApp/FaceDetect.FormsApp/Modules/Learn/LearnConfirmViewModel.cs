@@ -56,7 +56,7 @@ namespace FaceDetect.FormsApp.Modules.Learn
 
         private async Task LearnAsync()
         {
-            if (!await faceDetectUsecase.LearnAsync(Context.Value.Person.Id.ToString(), image))
+            if (!await faceDetectUsecase.LearnAsync(Context.Value.Person.Id, image))
             {
                 return;
             }

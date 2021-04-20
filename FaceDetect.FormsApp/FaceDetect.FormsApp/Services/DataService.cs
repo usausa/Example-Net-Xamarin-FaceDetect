@@ -61,5 +61,8 @@ namespace FaceDetect.FormsApp.Services
 
         public ValueTask<int> DeletePerson(Guid id) =>
             provider.UsingAsync(con => con.ExecuteAsync(SqlDelete<PersonEntity>.ByKey(),  new { Id = id }));
+
+        public ValueTask<int> DeleteAllPerson() =>
+            provider.UsingAsync(con => con.ExecuteAsync(SqlDelete<PersonEntity>.Where("1 = 1")));
     }
 }

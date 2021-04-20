@@ -4,8 +4,7 @@ namespace FaceDetect.FormsApp.Modules.Learn
     using System.Threading.Tasks;
     using System.Windows.Input;
 
-    using FaceDetect.FormsApp.Models.Entity;
-    using FaceDetect.FormsApp.Services;
+    using FaceDetect.FormsApp.Usecase;
 
     using Smart.ComponentModel;
     using Smart.Navigation;
@@ -13,7 +12,7 @@ namespace FaceDetect.FormsApp.Modules.Learn
 
     public class LearnEditViewModel : AppViewModelBase
     {
-        private readonly DataService dataService;
+        private readonly FaceDetectUsecase faceDetectUsecase;
 
         [Scope]
         public LearnContext Context { get; set; }
@@ -25,10 +24,10 @@ namespace FaceDetect.FormsApp.Modules.Learn
 
         public LearnEditViewModel(
             ApplicationState applicationState,
-            DataService dataService)
+            FaceDetectUsecase faceDetectUsecase)
             : base(applicationState)
         {
-            this.dataService = dataService;
+            this.faceDetectUsecase = faceDetectUsecase;
 
             BackCommand = MakeAsyncCommand(OnNotifyBackAsync);
             UpdateCommand = MakeAsyncCommand(UpdateAsync, () => !String.IsNullOrEmpty(Name.Value)).Observe(Name);
@@ -54,12 +53,12 @@ namespace FaceDetect.FormsApp.Modules.Learn
         {
             if (Context.Person is null)
             {
-                await dataService.InsertPerson(new PersonEntity { Id = Guid.NewGuid(),  Name = Name.Value });
+                await faceDetectUsecase.CreatePersonAsync(Name.Value);
             }
             else
             {
                 Context.Person.Name = Name.Value;
-                await dataService.UpdatePerson(Context.Person);
+                await faceDetectUsecase.UpdatePersonAsync(Context.Person);
             }
 
             await Navigator.ForwardAsync(ViewId.LearnList);

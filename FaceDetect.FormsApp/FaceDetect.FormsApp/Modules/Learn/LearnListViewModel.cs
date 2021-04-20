@@ -7,6 +7,7 @@ namespace FaceDetect.FormsApp.Modules.Learn
     using FaceDetect.FormsApp.Components.Dialog;
     using FaceDetect.FormsApp.Models.Entity;
     using FaceDetect.FormsApp.Services;
+    using FaceDetect.FormsApp.Usecase;
 
     using Smart.Collections.Generic;
     using Smart.Forms.ViewModels;
@@ -18,6 +19,8 @@ namespace FaceDetect.FormsApp.Modules.Learn
         private readonly IApplicationDialog dialog;
 
         private readonly DataService dataService;
+
+        private readonly FaceDetectUsecase faceDetectUsecase;
 
         [Scope]
         public LearnContext Context { get; set; }
@@ -34,11 +37,13 @@ namespace FaceDetect.FormsApp.Modules.Learn
         public LearnListViewModel(
             ApplicationState applicationState,
             IApplicationDialog dialog,
-            DataService dataService)
+            DataService dataService,
+            FaceDetectUsecase faceDetectUsecase)
             : base(applicationState)
         {
             this.dialog = dialog;
             this.dataService = dataService;
+            this.faceDetectUsecase = faceDetectUsecase;
 
             DeleteCommand = MakeAsyncCommand<PersonEntity>(DeleteAsync);
             EditCommand = MakeAsyncCommand<PersonEntity>(async x =>
@@ -80,7 +85,7 @@ namespace FaceDetect.FormsApp.Modules.Learn
                 return;
             }
 
-            await dataService.DeletePerson(entity.Id);
+            await faceDetectUsecase.DeletePersonAsync(entity.Id);
 
             Items.Remove(entity);
         }

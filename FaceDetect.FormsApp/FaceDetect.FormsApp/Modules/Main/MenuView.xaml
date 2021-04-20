@@ -40,7 +40,8 @@
                 IsEnabled="False" />
         <Button Grid.Row="4"
                 Style="{StaticResource MenuButton}"
-                IsEnabled="False" />
+                Command="{Binding ResetCommand}"
+                Text="Reset" />
         <Button Grid.Row="5"
                 Style="{StaticResource MenuButton}"
                 Command="{Binding ForwardCommand}"

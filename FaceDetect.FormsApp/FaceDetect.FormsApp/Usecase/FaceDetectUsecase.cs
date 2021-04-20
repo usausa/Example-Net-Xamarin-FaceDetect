@@ -10,7 +10,9 @@ namespace FaceDetect.FormsApp.Usecase
     using System.Threading.Tasks;
 
     using FaceDetect.FormsApp.Components.Dialog;
+    using FaceDetect.FormsApp.Models.Entity;
     using FaceDetect.FormsApp.Models.Result;
+    using FaceDetect.FormsApp.Services;
     using FaceDetect.FormsApp.State;
 
     using Microsoft.Azure.CognitiveServices.Vision.Face;
@@ -24,12 +26,16 @@ namespace FaceDetect.FormsApp.Usecase
 
         private readonly IApplicationDialog dialog;
 
+        private readonly DataService dataService;
+
         public FaceDetectUsecase(
             Configuration configuration,
-            IApplicationDialog dialog)
+            IApplicationDialog dialog,
+            DataService dataService)
         {
             this.configuration = configuration;
             this.dialog = dialog;
+            this.dataService = dataService;
         }
 
         //--------------------------------------------------------------------------------
@@ -140,11 +146,46 @@ namespace FaceDetect.FormsApp.Usecase
         }
 
         //--------------------------------------------------------------------------------
+        // Person
+        //--------------------------------------------------------------------------------
+
+        public async ValueTask CreatePersonAsync(string name)
+        {
+            using var loading = dialog.Loading("Creating");
+            using var client = new FaceClient(new ApiKeyServiceClientCredentials(configuration.ApiKey)) { Endpoint = configuration.ApiEndPoint };
+            var groupId = await PrepareGroupAsync(client, RecognitionModel.Recognition04);
+
+            var person = await client.PersonGroupPerson.CreateAsync(groupId, name);
+
+            await dataService.InsertPerson(new PersonEntity { Id = person.PersonId,  Name = name });
+        }
+
+        public async ValueTask UpdatePersonAsync(PersonEntity person)
+        {
+            using var loading = dialog.Loading("Updating");
+            using var client = new FaceClient(new ApiKeyServiceClientCredentials(configuration.ApiKey)) { Endpoint = configuration.ApiEndPoint };
+            var groupId = await PrepareGroupAsync(client, RecognitionModel.Recognition04);
+
+            await client.PersonGroupPerson.UpdateAsync(groupId, person.Id, person.Name);
+        }
+
+        public async ValueTask DeletePersonAsync(Guid personId)
+        {
+            using var loading = dialog.Loading("Deleting");
+            using var client = new FaceClient(new ApiKeyServiceClientCredentials(configuration.ApiKey)) { Endpoint = configuration.ApiEndPoint };
+            var groupId = await PrepareGroupAsync(client, RecognitionModel.Recognition04);
+
+            await client.PersonGroupPerson.DeleteAsync(groupId, personId);
+
+            await dataService.DeletePerson(personId);
+        }
+
+        //--------------------------------------------------------------------------------
         // Learn
         //--------------------------------------------------------------------------------
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031", Justification = "Ignore")]
-        public async ValueTask<bool> LearnAsync(string id, byte[] image)
+        public async ValueTask<bool> LearnAsync(Guid personId, byte[] image)
         {
             try
             {
@@ -154,11 +195,9 @@ namespace FaceDetect.FormsApp.Usecase
 
                 var groupId = await PrepareGroupAsync(client, RecognitionModel.Recognition04);
 
-                var person = await client.PersonGroupPerson.CreateAsync(groupId, id);
-
                 await client.PersonGroupPerson.AddFaceFromStreamWithHttpMessagesAsync(
                     groupId,
-                    person.PersonId,
+                    personId,
                     stream,
                     detectionModel: DetectionModel.Detection03);
 
@@ -252,7 +291,7 @@ namespace FaceDetect.FormsApp.Usecase
 
                 return new FaceDetect.FormsApp.Models.Result.IdentifyResult
                 {
-                    Id = Guid.Parse(person.Name),
+                    Id = person.PersonId,
                     Confidence = identifyResults[0].Candidates[0].Confidence,
                     FaceRectangle = new Rectangle(face.FaceRectangle.Left, face.FaceRectangle.Top, face.FaceRectangle.Width, face.FaceRectangle.Height)
                 };
@@ -261,6 +300,34 @@ namespace FaceDetect.FormsApp.Usecase
             {
                 await dialog.Information("Error", e.ToString());
                 return null;
+            }
+        }
+
+        //--------------------------------------------------------------------------------
+        // Reset
+        //--------------------------------------------------------------------------------
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031", Justification = "Ignore")]
+        public async ValueTask ResetAsync()
+        {
+            var groupId = configuration.GroupId;
+            if (String.IsNullOrEmpty(groupId))
+            {
+                return;
+            }
+
+            try
+            {
+                using var loading = dialog.Loading("Reset");
+                using var client = new FaceClient(new ApiKeyServiceClientCredentials(configuration.ApiKey)) { Endpoint = configuration.ApiEndPoint };
+
+                await client.PersonGroup.DeleteAsync(groupId);
+
+                await dataService.DeleteAllPerson();
+            }
+            catch (Exception e)
+            {
+                await dialog.Information("Error", e.ToString());
             }
         }
 
