@@ -263,6 +263,7 @@ namespace FaceDetect.FormsApp.Usecase
         // Helper
         //--------------------------------------------------------------------------------
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031", Justification = "Ignore")]
         private async ValueTask<string> PrepareGroupAsync(FaceClient client, string recognitionModel)
         {
             var groupId = configuration.GroupId;
