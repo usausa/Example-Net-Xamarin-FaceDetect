@@ -18,13 +18,13 @@ namespace FaceDetect.FormsApp.Behaviors
             null,
             propertyChanged: HandleRequestPropertyChanged);
 
-        public static readonly BindableProperty MaxSizeProperty = BindableProperty.CreateAttached(
+        public static readonly BindableProperty MaxSizeProperty = BindableProperty.Create(
             nameof(MaxSize),
             typeof(int),
             typeof(CameraCaptureBehavior),
             1024);
 
-        public static readonly BindableProperty QualityProperty = BindableProperty.CreateAttached(
+        public static readonly BindableProperty QualityProperty = BindableProperty.Create(
             nameof(Quality),
             typeof(int),
             typeof(CameraCaptureBehavior),
