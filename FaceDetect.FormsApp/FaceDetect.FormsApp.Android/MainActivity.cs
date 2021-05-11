@@ -5,7 +5,6 @@ namespace FaceDetect.FormsApp.Droid
     using Acr.UserDialogs;
 
     using Android.App;
-    using Android.Content;
     using Android.Content.PM;
     using Android.OS;
     using Android.Runtime;
@@ -80,7 +79,7 @@ namespace FaceDetect.FormsApp.Droid
 
             public void RegisterComponents(ResolverConfig config)
             {
-                config.Bind<Context>().ToConstant(activity).InSingletonScope();
+                config.Bind<Activity>().ToConstant(activity).InSingletonScope();
 
                 config.Bind<IApplicationDialog>().To<ApplicationDialog>().InSingletonScope();
             }
