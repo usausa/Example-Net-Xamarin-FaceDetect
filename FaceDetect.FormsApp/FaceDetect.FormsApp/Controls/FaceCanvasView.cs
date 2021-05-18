@@ -9,7 +9,7 @@ namespace FaceDetect.FormsApp.Controls
 
     public class FaceCanvasView : SKCanvasView
     {
-        private SKBitmap image;
+        private SKBitmap? image;
 
         public static readonly BindableProperty FaceRectangleProperty =
             BindableProperty.CreateAttached(

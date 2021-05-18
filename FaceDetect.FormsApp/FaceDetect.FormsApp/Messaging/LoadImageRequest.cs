@@ -7,7 +7,7 @@ namespace FaceDetect.FormsApp.Messaging
 
     public sealed class LoadImageRequest : IEventRequest<EventArgs<byte[]>>
     {
-        public event EventHandler<EventArgs<byte[]>> Requested;
+        public event EventHandler<EventArgs<byte[]>>? Requested;
 
         public void Load(byte[] data)
         {

@@ -15,7 +15,7 @@ namespace FaceDetect.FormsApp.Modules.Detect
     {
         private readonly FaceDetectUsecase faceDetectUsecase;
 
-        public NotificationValue<DetectResult> Result { get; } = new();
+        public NotificationValue<DetectResult?> Result { get; } = new();
 
         public LoadImageRequest LoadImageRequest { get; } = new();
 

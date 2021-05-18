@@ -29,7 +29,7 @@ namespace FaceDetect.FormsApp.Shell
             }
         }
 
-        public static void UpdateShellControl(IShellControl shell, BindableObject bindable)
+        public static void UpdateShellControl(IShellControl shell, BindableObject? bindable)
         {
             shell.Title.Value = bindable is null ? string.Empty : GetTitle(bindable);
         }

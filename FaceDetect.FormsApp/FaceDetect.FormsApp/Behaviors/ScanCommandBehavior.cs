@@ -20,7 +20,7 @@ namespace FaceDetect.FormsApp.Behaviors
             null,
             propertyChanged: HandleCommandPropertyChanged);
 
-        public ICommand Command
+        public ICommand? Command
         {
             get => (ICommand)GetValue(CommandProperty);
             set => SetValue(CommandProperty, value);
@@ -45,12 +45,12 @@ namespace FaceDetect.FormsApp.Behaviors
             base.OnDetachingFrom(bindable);
         }
 
-        private static void HandleCommandPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        private static void HandleCommandPropertyChanged(BindableObject bindable, object? oldValue, object? newValue)
         {
             ((ScanCommandBehavior)bindable).OnCommandPropertyChanged(oldValue as ICommand, newValue as ICommand);
         }
 
-        private void OnCommandPropertyChanged(ICommand oldValue, ICommand newValue)
+        private void OnCommandPropertyChanged(ICommand? oldValue, ICommand? newValue)
         {
             if (oldValue == newValue)
             {

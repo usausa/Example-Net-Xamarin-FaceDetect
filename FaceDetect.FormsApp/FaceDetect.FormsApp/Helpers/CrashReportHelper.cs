@@ -20,7 +20,7 @@ namespace FaceDetect.FormsApp.Helpers
                 var log = new StringBuilder();
                 log.AppendLine($"Time: {DateTime.Now:yyyy/MM/dd HH:mm:ss}");
                 log.AppendLine("Exception:");
-                log.AppendLine(e?.ToString());
+                log.AppendLine(e.ToString());
 
                 File.WriteAllText(path, log.ToString());
             }
@@ -46,7 +46,7 @@ namespace FaceDetect.FormsApp.Helpers
             File.Delete(path);
         }
 
-        public static string GetReport()
+        public static string? GetReport()
         {
             var path = Path.Combine(FileSystem.AppDataDirectory, "dump.log");
 

@@ -18,7 +18,7 @@
   <ItemGroup>
     <PackageReference Include="Acr.UserDialogs" Version="7.1.0.514" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Vision.Face" Version="2.7.0-preview.1" />
-    <PackageReference Include="Microsoft.Data.Sqlite" Version="5.0.5" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="5.0.6" />
     <PackageReference Include="SkiaSharp" Version="2.80.2" />
     <PackageReference Include="SkiaSharp.Views.Forms" Version="2.80.2" />
     <PackageReference Include="System.Interactive" Version="5.0.0" />
@@ -29,12 +29,12 @@
     <PackageReference Include="Usa.Smart.Data" Version="2.0.0" />
     <PackageReference Include="Usa.Smart.Data.Mapper" Version="2.0.0" />
     <PackageReference Include="Usa.Smart.Data.Mapper.Builders" Version="2.0.0" />
-    <PackageReference Include="Usa.Smart.Forms" Version="2.0.0" />
-    <PackageReference Include="Usa.Smart.Forms.Reactive" Version="2.0.0" />
-    <PackageReference Include="Usa.Smart.Forms.Resolver" Version="2.0.0" />
-    <PackageReference Include="Usa.Smart.Navigation" Version="2.0.0" />
-    <PackageReference Include="Usa.Smart.Navigation.Forms" Version="2.0.0" />
-    <PackageReference Include="Usa.Smart.Navigation.Resolver" Version="2.0.0" />
+    <PackageReference Include="Usa.Smart.Forms" Version="2.1.0" />
+    <PackageReference Include="Usa.Smart.Forms.Reactive" Version="2.1.0" />
+    <PackageReference Include="Usa.Smart.Forms.Resolver" Version="2.1.0" />
+    <PackageReference Include="Usa.Smart.Navigation" Version="2.0.1" />
+    <PackageReference Include="Usa.Smart.Navigation.Forms" Version="2.0.1" />
+    <PackageReference Include="Usa.Smart.Navigation.Resolver" Version="2.0.1" />
     <PackageReference Include="Usa.Smart.Reactive" Version="2.0.0" />
     <PackageReference Include="Usa.Smart.Resolver" Version="2.0.0" />
     <PackageReference Include="Usa.Smart.Resolver.Xamarin" Version="2.0.0" />

@@ -17,7 +17,7 @@ namespace FaceDetect.FormsApp.Behaviors
             null,
             propertyChanged: HandleRequestPropertyChanged);
 
-        public IEventRequest<EventArgs<byte[]>> Request
+        public IEventRequest<EventArgs<byte[]>>? Request
         {
             get => (IEventRequest<EventArgs<byte[]>>)GetValue(RequestProperty);
             set => SetValue(RequestProperty, value);
@@ -33,12 +33,12 @@ namespace FaceDetect.FormsApp.Behaviors
             base.OnDetachingFrom(bindable);
         }
 
-        private static void HandleRequestPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        private static void HandleRequestPropertyChanged(BindableObject bindable, object? oldValue, object? newValue)
         {
             ((LoadImageBehavior)bindable).OnRequestPropertyChanged(oldValue as IEventRequest<EventArgs<byte[]>>, newValue as IEventRequest<EventArgs<byte[]>>);
         }
 
-        private void OnRequestPropertyChanged(IEventRequest<EventArgs<byte[]>> oldValue, IEventRequest<EventArgs<byte[]>> newValue)
+        private void OnRequestPropertyChanged(IEventRequest<EventArgs<byte[]>>? oldValue, IEventRequest<EventArgs<byte[]>>? newValue)
         {
             if (oldValue == newValue)
             {
@@ -58,7 +58,7 @@ namespace FaceDetect.FormsApp.Behaviors
 
         private void EventRequestOnRequested(object sender, EventArgs<byte[]> ea)
         {
-            AssociatedObject.Load(ea.Data);
+            AssociatedObject?.Load(ea.Data);
         }
     }
 }

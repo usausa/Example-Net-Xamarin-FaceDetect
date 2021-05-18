@@ -43,7 +43,7 @@ namespace FaceDetect.FormsApp.Usecase
         //--------------------------------------------------------------------------------
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031", Justification = "Ignore")]
-        public async ValueTask<DetectResult> DetectAsync(byte[] image)
+        public async ValueTask<DetectResult?> DetectAsync(byte[] image)
         {
             try
             {
@@ -89,7 +89,7 @@ namespace FaceDetect.FormsApp.Usecase
                 var face = detectedFaces.Body[0];
 
                 result.Age = face.FaceAttributes.Age;
-                result.Gender = face.FaceAttributes.Gender.ToString();
+                result.Gender = face.FaceAttributes.Gender?.ToString();
                 result.PredominantEmotion = DetectEmotion(face.FaceAttributes.Emotion);
                 result.Hair = DetectHair(face.FaceAttributes.Hair);
                 result.Accessories = face.FaceAttributes.Accessories.Select(x => x.Type.ToString()).ToArray();
@@ -121,7 +121,7 @@ namespace FaceDetect.FormsApp.Usecase
                 }
             }
 
-            return maxEmotion.Name;
+            return maxEmotion!.Name;
         }
 
         private static string DetectHair(Hair hair)
@@ -132,7 +132,7 @@ namespace FaceDetect.FormsApp.Usecase
             }
 
             var max = 0d;
-            var maxColor = default(string);
+            var maxColor = string.Empty;
             foreach (var hairColor in hair.HairColor)
             {
                 if (hairColor.Confidence > max)
@@ -243,7 +243,7 @@ namespace FaceDetect.FormsApp.Usecase
         //--------------------------------------------------------------------------------
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031", Justification = "Ignore")]
-        public async ValueTask<FaceDetect.FormsApp.Models.Result.IdentifyResult> IdentifyAsync(byte[] image)
+        public async ValueTask<FaceDetect.FormsApp.Models.Result.IdentifyResult?> IdentifyAsync(byte[] image)
         {
             try
             {
@@ -276,7 +276,7 @@ namespace FaceDetect.FormsApp.Usecase
                 // ReSharper disable once PossibleInvalidOperationException
                 var faceIds = new List<Guid>
                 {
-                    face.FaceId.Value
+                    face.FaceId!.Value
                 };
 
                 var identifyResults = await client.Face.IdentifyAsync(faceIds, groupId);

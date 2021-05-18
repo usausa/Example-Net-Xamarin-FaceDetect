@@ -30,7 +30,7 @@ namespace FaceDetect.FormsApp.Behaviors
             typeof(CameraCaptureBehavior),
             85);
 
-        public IEventRequest<CameraCaptureEventArgs> Request
+        public IEventRequest<CameraCaptureEventArgs>? Request
         {
             get => (IEventRequest<CameraCaptureEventArgs>)GetValue(RequestProperty);
             set => SetValue(RequestProperty, value);
@@ -60,10 +60,10 @@ namespace FaceDetect.FormsApp.Behaviors
 
         private static void HandleRequestPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            ((CameraCaptureBehavior)bindable).OnRequestPropertyChanged(oldValue as IEventRequest<CameraCaptureEventArgs>, newValue as IEventRequest<CameraCaptureEventArgs>);
+            ((CameraCaptureBehavior)bindable).OnMessengerPropertyChanged(oldValue as IEventRequest<CameraCaptureEventArgs>, newValue as IEventRequest<CameraCaptureEventArgs>);
         }
 
-        private void OnRequestPropertyChanged(IEventRequest<CameraCaptureEventArgs> oldValue, IEventRequest<CameraCaptureEventArgs> newValue)
+        private void OnMessengerPropertyChanged(IEventRequest<CameraCaptureEventArgs>? oldValue, IEventRequest<CameraCaptureEventArgs>? newValue)
         {
             if (oldValue == newValue)
             {
@@ -89,8 +89,15 @@ namespace FaceDetect.FormsApp.Behaviors
                 camera.MediaCaptured -= MediaCaptured;
                 camera.MediaCaptureFailed -= MediaCaptureFailed;
 
-                var image = await ImageHelper.NormalizeImageAsync(e.ImageData, MaxSize, e.Rotation, Quality);
-                ea.CompletionSource.TrySetResult(image);
+                if (e.ImageData is not null)
+                {
+                    var image = await ImageHelper.NormalizeImageAsync(e.ImageData, MaxSize, e.Rotation, Quality);
+                    ea.CompletionSource.TrySetResult(image);
+                }
+                else
+                {
+                    ea.CompletionSource.TrySetResult(null);
+                }
             }
 
             void MediaCaptureFailed(object s, string e)
@@ -100,6 +107,11 @@ namespace FaceDetect.FormsApp.Behaviors
                 camera.MediaCaptureFailed -= MediaCaptureFailed;
 
                 ea.CompletionSource.TrySetResult(null);
+            }
+
+            if (AssociatedObject is null)
+            {
+                return;
             }
 
             AssociatedObject.MediaCaptured += MediaCaptured;
