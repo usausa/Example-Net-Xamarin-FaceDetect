@@ -23,7 +23,7 @@ namespace FaceDetect.FormsApp.Droid.Components.Dialog
         {
             var result = new TaskCompletionSource<bool>();
 
-            var alert = new AlertDialog.Builder(activity).Create();
+            var alert = new AlertDialog.Builder(activity).Create()!;
             alert.SetTitle(title);
             alert.SetMessage(message);
             alert.SetButton((int)DialogButtonType.Positive, ok, (_, _) => result.TrySetResult(true));
@@ -38,7 +38,7 @@ namespace FaceDetect.FormsApp.Droid.Components.Dialog
         {
             var result = new TaskCompletionSource<bool>();
 
-            var alert = new AlertDialog.Builder(activity).Create();
+            var alert = new AlertDialog.Builder(activity).Create()!;
             alert.SetTitle(title);
             alert.SetMessage(message);
             alert.SetButton((int)DialogButtonType.Positive, ok, (_, _) => result.TrySetResult(true));
