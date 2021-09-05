@@ -42,13 +42,11 @@ namespace FaceDetect.FormsApp.Modules
 
         public Task NavigatorNotifyAsync(ShellEvent parameter)
         {
-            switch (parameter)
+            return parameter switch
             {
-                case ShellEvent.Back:
-                    return OnNotifyBackAsync();
-                default:
-                    return Task.CompletedTask;
-            }
+                ShellEvent.Back => OnNotifyBackAsync(),
+                _ => Task.CompletedTask
+            };
         }
 
         protected virtual Task OnNotifyBackAsync()
