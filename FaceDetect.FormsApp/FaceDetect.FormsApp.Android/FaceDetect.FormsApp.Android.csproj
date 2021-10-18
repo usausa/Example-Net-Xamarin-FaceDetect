@@ -55,6 +55,7 @@
     <MandroidI18n>CJK</MandroidI18n>
     <AotAssemblies>true</AotAssemblies>
     <EnableLLVM>true</EnableLLVM>
+    <AndroidSupportedAbis>arm64-v8a</AndroidSupportedAbis>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />
@@ -67,7 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Acr.UserDialogs">
-      <Version>7.1.0.514</Version>
+      <Version>7.2.0.534</Version>
     </PackageReference>
     <PackageReference Include="SkiaSharp">
       <Version>2.80.3</Version>
@@ -76,15 +77,15 @@
       <Version>2.80.3</Version>
     </PackageReference>
     <PackageReference Include="Usa.Smart.Core">
-      <Version>2.0.6</Version>
+      <Version>2.0.8</Version>
     </PackageReference>
     <PackageReference Include="Usa.Smart.Resolver">
-      <Version>2.0.2</Version>
+      <Version>2.0.3</Version>
     </PackageReference>
     <PackageReference Include="Usa.Smart.Resolver.Xamarin">
-      <Version>2.0.2</Version>
+      <Version>2.0.3</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2083" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2125" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
     <PackageReference Include="ZXing.Net.Mobile">
       <Version>2.4.1</Version>
