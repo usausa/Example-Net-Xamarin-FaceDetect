@@ -1,7 +1,6 @@
 namespace FaceDetect.FormsApp.Modules.Learn
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
     using System.Windows.Input;
 
@@ -16,8 +15,7 @@ namespace FaceDetect.FormsApp.Modules.Learn
         private readonly FaceDetectUsecase faceDetectUsecase;
 
         [Scope]
-        [AllowNull]
-        public LearnContext Context { get; set; }
+        public LearnContext Context { get; set; } = default!;
 
         public NotificationValue<string> Name { get; } = new();
 

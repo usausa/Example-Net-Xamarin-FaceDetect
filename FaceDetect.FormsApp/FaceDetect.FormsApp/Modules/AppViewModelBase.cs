@@ -1,6 +1,5 @@
 namespace FaceDetect.FormsApp.Modules
 {
-    using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
 
     using FaceDetect.FormsApp.Shell;
@@ -10,8 +9,7 @@ namespace FaceDetect.FormsApp.Modules
 
     public class AppViewModelBase : ViewModelBase, INavigatorAware, INavigationEventSupport, INotifySupportAsync<ShellEvent>
     {
-        [AllowNull]
-        public INavigator Navigator { get; set; }
+        public INavigator Navigator { get; set; } = default!;
 
         public ApplicationState ApplicationState { get; }
 

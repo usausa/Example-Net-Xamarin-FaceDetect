@@ -1,6 +1,5 @@
 namespace FaceDetect.FormsApp.Modules.Learn
 {
-    using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
     using System.Windows.Input;
 
@@ -12,8 +11,7 @@ namespace FaceDetect.FormsApp.Modules.Learn
     public class LearnCameraViewModel : AppViewModelBase
     {
         [Scope]
-        [AllowNull]
-        public LearnContext Context { get; set; }
+        public LearnContext Context { get; set; } = default!;
 
         public CameraCaptureRequest CaptureRequest { get; } = new();
 

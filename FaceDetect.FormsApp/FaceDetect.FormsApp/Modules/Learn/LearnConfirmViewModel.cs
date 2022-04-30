@@ -1,6 +1,5 @@
 namespace FaceDetect.FormsApp.Modules.Learn
 {
-    using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
     using System.Windows.Input;
 
@@ -18,11 +17,9 @@ namespace FaceDetect.FormsApp.Modules.Learn
 
         private readonly FaceDetectUsecase faceDetectUsecase;
 
-        [AllowNull]
-        private byte[] image;
+        private byte[] image = default!;
 
         [Scope]
-        [AllowNull]
         public NotificationValue<LearnContext> Context { get; } = new();
 
         public LoadImageRequest LoadImageRequest { get; } = new();

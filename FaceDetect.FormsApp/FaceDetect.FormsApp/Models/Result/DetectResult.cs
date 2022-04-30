@@ -1,6 +1,5 @@
 namespace FaceDetect.FormsApp.Models.Result
 {
-    using System.Diagnostics.CodeAnalysis;
     using System.Drawing;
 
     public class DetectResult
@@ -9,14 +8,11 @@ namespace FaceDetect.FormsApp.Models.Result
 
         public string? Gender { get; set; }
 
-        [AllowNull]
-        public string PredominantEmotion { get; set; }
+        public string PredominantEmotion { get; set; } = default!;
 
-        [AllowNull]
-        public string Hair { get; set; }
+        public string Hair { get; set; } = default!;
 
-        [AllowNull]
-        public string[] Accessories { get; set; }
+        public string[] Accessories { get; set; } = default!;
 
         public string? Glasses { get; set; }
 

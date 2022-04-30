@@ -2,7 +2,6 @@ namespace FaceDetect.FormsApp.Services
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Threading.Tasks;
 
@@ -17,8 +16,7 @@ namespace FaceDetect.FormsApp.Services
 
     public class DataServiceOptions
     {
-        [AllowNull]
-        public string Path { get; set; }
+        public string Path { get; set; } = default!;
     }
 
     public class DataService
