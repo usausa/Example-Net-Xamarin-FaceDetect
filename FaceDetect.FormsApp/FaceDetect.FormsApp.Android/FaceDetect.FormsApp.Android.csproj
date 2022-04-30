@@ -68,7 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Acr.UserDialogs">
-      <Version>7.2.0.534</Version>
+      <Version>7.2.0.564</Version>
     </PackageReference>
     <PackageReference Include="SkiaSharp">
       <Version>2.80.3</Version>
@@ -77,16 +77,16 @@
       <Version>2.80.3</Version>
     </PackageReference>
     <PackageReference Include="Usa.Smart.Core">
-      <Version>2.0.8</Version>
+      <Version>2.0.15</Version>
     </PackageReference>
     <PackageReference Include="Usa.Smart.Resolver">
-      <Version>2.0.3</Version>
+      <Version>2.0.6</Version>
     </PackageReference>
     <PackageReference Include="Usa.Smart.Resolver.Xamarin">
-      <Version>2.0.3</Version>
+      <Version>2.0.6</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2125" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2401" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.7.2" />
     <PackageReference Include="ZXing.Net.Mobile">
       <Version>2.4.1</Version>
     </PackageReference>
