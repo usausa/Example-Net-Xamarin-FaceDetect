@@ -1,39 +1,38 @@
-namespace FaceDetect.FormsApp.Modules.Detect
+namespace FaceDetect.FormsApp.Modules.Detect;
+
+using System.Threading.Tasks;
+using System.Windows.Input;
+
+using FaceDetect.FormsApp.Messaging;
+
+using Smart.Navigation;
+
+public class DetectCameraViewModel : AppViewModelBase
 {
-    using System.Threading.Tasks;
-    using System.Windows.Input;
+    public CameraCaptureRequest CaptureRequest { get; } = new();
 
-    using FaceDetect.FormsApp.Messaging;
+    public ICommand BackCommand { get; }
+    public ICommand DetectCommand { get; }
 
-    using Smart.Navigation;
-
-    public class DetectCameraViewModel : AppViewModelBase
+    public DetectCameraViewModel(
+        ApplicationState applicationState)
+        : base(applicationState)
     {
-        public CameraCaptureRequest CaptureRequest { get; } = new();
+        BackCommand = MakeAsyncCommand(OnNotifyBackAsync);
+        DetectCommand = MakeAsyncCommand(DetectAsync);
+    }
 
-        public ICommand BackCommand { get; }
-        public ICommand DetectCommand { get; }
+    protected override Task OnNotifyBackAsync()
+    {
+        return Navigator.ForwardAsync(ViewId.Menu);
+    }
 
-        public DetectCameraViewModel(
-            ApplicationState applicationState)
-            : base(applicationState)
+    private async Task DetectAsync()
+    {
+        var image = await CaptureRequest.CaptureAsync();
+        if (image is not null)
         {
-            BackCommand = MakeAsyncCommand(OnNotifyBackAsync);
-            DetectCommand = MakeAsyncCommand(DetectAsync);
-        }
-
-        protected override Task OnNotifyBackAsync()
-        {
-            return Navigator.ForwardAsync(ViewId.Menu);
-        }
-
-        private async Task DetectAsync()
-        {
-            var image = await CaptureRequest.CaptureAsync();
-            if (image is not null)
-            {
-                await Navigator.ForwardAsync(ViewId.DetectResult, Parameters.MakeImage(image));
-            }
+            await Navigator.ForwardAsync(ViewId.DetectResult, Parameters.MakeImage(image));
         }
     }
 }

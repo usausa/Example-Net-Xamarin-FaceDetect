@@ -1,19 +1,18 @@
-namespace FaceDetect.FormsApp.Messaging
+namespace FaceDetect.FormsApp.Messaging;
+
+using System;
+using System.Threading.Tasks;
+
+using Smart.Forms.Messaging;
+
+public sealed class CameraCaptureRequest : IEventRequest<CameraCaptureEventArgs>
 {
-    using System;
-    using System.Threading.Tasks;
+    public event EventHandler<CameraCaptureEventArgs>? Requested;
 
-    using Smart.Forms.Messaging;
-
-    public sealed class CameraCaptureRequest : IEventRequest<CameraCaptureEventArgs>
+    public Task<byte[]?> CaptureAsync()
     {
-        public event EventHandler<CameraCaptureEventArgs>? Requested;
-
-        public Task<byte[]?> CaptureAsync()
-        {
-            var args = new CameraCaptureEventArgs();
-            Requested?.Invoke(this, args);
-            return args.CompletionSource.Task;
-        }
+        var args = new CameraCaptureEventArgs();
+        Requested?.Invoke(this, args);
+        return args.CompletionSource.Task;
     }
 }

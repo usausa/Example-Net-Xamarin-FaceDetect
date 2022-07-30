@@ -1,13 +1,12 @@
-namespace FaceDetect.FormsApp.Modules.Identify
-{
-    using Smart.Navigation.Attributes;
+namespace FaceDetect.FormsApp.Modules.Identify;
 
-    [View(ViewId.IdentifyResult)]
-    public partial class IdentifyResultView
+using Smart.Navigation.Attributes;
+
+[View(ViewId.IdentifyResult)]
+public partial class IdentifyResultView
+{
+    public IdentifyResultView()
     {
-        public IdentifyResultView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

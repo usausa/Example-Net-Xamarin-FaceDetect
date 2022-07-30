@@ -1,37 +1,36 @@
-namespace FaceDetect.FormsApp.Shell
+namespace FaceDetect.FormsApp.Shell;
+
+using Xamarin.Forms;
+
+public static class ShellProperty
 {
-    using Xamarin.Forms;
+    public static readonly BindableProperty TitleProperty = BindableProperty.CreateAttached(
+        "Title",
+        typeof(string),
+        typeof(ShellProperty),
+        null,
+        propertyChanged: PropertyChanged);
 
-    public static class ShellProperty
+    public static string GetTitle(BindableObject view)
     {
-        public static readonly BindableProperty TitleProperty = BindableProperty.CreateAttached(
-            "Title",
-            typeof(string),
-            typeof(ShellProperty),
-            null,
-            propertyChanged: PropertyChanged);
+        return (string)view.GetValue(TitleProperty);
+    }
 
-        public static string GetTitle(BindableObject view)
+    public static void SetTitle(BindableObject view, string value)
+    {
+        view.SetValue(TitleProperty, value);
+    }
+    private static void PropertyChanged(BindableObject bindable, object oldValue, object newValue)
+    {
+        var parent = ((ContentView)bindable).Parent;
+        if (parent?.BindingContext is IShellControl shell)
         {
-            return (string)view.GetValue(TitleProperty);
+            UpdateShellControl(shell, bindable);
         }
+    }
 
-        public static void SetTitle(BindableObject view, string value)
-        {
-            view.SetValue(TitleProperty, value);
-        }
-        private static void PropertyChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            var parent = ((ContentView)bindable).Parent;
-            if (parent?.BindingContext is IShellControl shell)
-            {
-                UpdateShellControl(shell, bindable);
-            }
-        }
-
-        public static void UpdateShellControl(IShellControl shell, BindableObject? bindable)
-        {
-            shell.Title.Value = bindable is null ? string.Empty : GetTitle(bindable);
-        }
+    public static void UpdateShellControl(IShellControl shell, BindableObject? bindable)
+    {
+        shell.Title.Value = bindable is null ? string.Empty : GetTitle(bindable);
     }
 }

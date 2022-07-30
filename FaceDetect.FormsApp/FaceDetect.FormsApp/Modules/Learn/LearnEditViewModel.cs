@@ -1,67 +1,66 @@
-namespace FaceDetect.FormsApp.Modules.Learn
+namespace FaceDetect.FormsApp.Modules.Learn;
+
+using System;
+using System.Threading.Tasks;
+using System.Windows.Input;
+
+using FaceDetect.FormsApp.Usecase;
+
+using Smart.ComponentModel;
+using Smart.Navigation;
+using Smart.Navigation.Plugins.Scope;
+
+public class LearnEditViewModel : AppViewModelBase
 {
-    using System;
-    using System.Threading.Tasks;
-    using System.Windows.Input;
+    private readonly FaceDetectUsecase faceDetectUsecase;
 
-    using FaceDetect.FormsApp.Usecase;
+    [Scope]
+    public LearnContext Context { get; set; } = default!;
 
-    using Smart.ComponentModel;
-    using Smart.Navigation;
-    using Smart.Navigation.Plugins.Scope;
+    public NotificationValue<string> Name { get; } = new();
 
-    public class LearnEditViewModel : AppViewModelBase
+    public ICommand BackCommand { get; }
+    public ICommand UpdateCommand { get; }
+
+    public LearnEditViewModel(
+        ApplicationState applicationState,
+        FaceDetectUsecase faceDetectUsecase)
+        : base(applicationState)
     {
-        private readonly FaceDetectUsecase faceDetectUsecase;
+        this.faceDetectUsecase = faceDetectUsecase;
 
-        [Scope]
-        public LearnContext Context { get; set; } = default!;
+        BackCommand = MakeAsyncCommand(OnNotifyBackAsync);
+        UpdateCommand = MakeAsyncCommand(UpdateAsync, () => !String.IsNullOrEmpty(Name.Value)).Observe(Name);
+    }
 
-        public NotificationValue<string> Name { get; } = new();
-
-        public ICommand BackCommand { get; }
-        public ICommand UpdateCommand { get; }
-
-        public LearnEditViewModel(
-            ApplicationState applicationState,
-            FaceDetectUsecase faceDetectUsecase)
-            : base(applicationState)
+    public override void OnNavigatedTo(INavigationContext context)
+    {
+        if (!context.Attribute.IsRestore())
         {
-            this.faceDetectUsecase = faceDetectUsecase;
-
-            BackCommand = MakeAsyncCommand(OnNotifyBackAsync);
-            UpdateCommand = MakeAsyncCommand(UpdateAsync, () => !String.IsNullOrEmpty(Name.Value)).Observe(Name);
-        }
-
-        public override void OnNavigatedTo(INavigationContext context)
-        {
-            if (!context.Attribute.IsRestore())
+            if (Context.Person is not null)
             {
-                if (Context.Person is not null)
-                {
-                    Name.Value = Context.Person.Name;
-                }
+                Name.Value = Context.Person.Name;
             }
         }
+    }
 
-        protected override Task OnNotifyBackAsync()
+    protected override Task OnNotifyBackAsync()
+    {
+        return Navigator.ForwardAsync(ViewId.LearnList);
+    }
+
+    private async Task UpdateAsync()
+    {
+        if (Context.Person is null)
         {
-            return Navigator.ForwardAsync(ViewId.LearnList);
+            await faceDetectUsecase.CreatePersonAsync(Name.Value);
+        }
+        else
+        {
+            Context.Person.Name = Name.Value;
+            await faceDetectUsecase.UpdatePersonAsync(Context.Person);
         }
 
-        private async Task UpdateAsync()
-        {
-            if (Context.Person is null)
-            {
-                await faceDetectUsecase.CreatePersonAsync(Name.Value);
-            }
-            else
-            {
-                Context.Person.Name = Name.Value;
-                await faceDetectUsecase.UpdatePersonAsync(Context.Person);
-            }
-
-            await Navigator.ForwardAsync(ViewId.LearnList);
-        }
+        await Navigator.ForwardAsync(ViewId.LearnList);
     }
 }

@@ -1,64 +1,63 @@
-namespace FaceDetect.FormsApp.Behaviors
+namespace FaceDetect.FormsApp.Behaviors;
+
+using FaceDetect.FormsApp.Controls;
+
+using Smart;
+using Smart.Forms.Interactivity;
+using Smart.Forms.Messaging;
+
+using Xamarin.Forms;
+
+public sealed class LoadImageBehavior : BehaviorBase<FaceCanvasView>
 {
-    using FaceDetect.FormsApp.Controls;
+    public static readonly BindableProperty RequestProperty = BindableProperty.Create(
+        nameof(Request),
+        typeof(IEventRequest<EventArgs<byte[]>>),
+        typeof(CameraCaptureBehavior),
+        null,
+        propertyChanged: HandleRequestPropertyChanged);
 
-    using Smart;
-    using Smart.Forms.Interactivity;
-    using Smart.Forms.Messaging;
-
-    using Xamarin.Forms;
-
-    public sealed class LoadImageBehavior : BehaviorBase<FaceCanvasView>
+    public IEventRequest<EventArgs<byte[]>>? Request
     {
-        public static readonly BindableProperty RequestProperty = BindableProperty.Create(
-            nameof(Request),
-            typeof(IEventRequest<EventArgs<byte[]>>),
-            typeof(CameraCaptureBehavior),
-            null,
-            propertyChanged: HandleRequestPropertyChanged);
+        get => (IEventRequest<EventArgs<byte[]>>)GetValue(RequestProperty);
+        set => SetValue(RequestProperty, value);
+    }
 
-        public IEventRequest<EventArgs<byte[]>>? Request
+    protected override void OnDetachingFrom(FaceCanvasView bindable)
+    {
+        if (Request is not null)
         {
-            get => (IEventRequest<EventArgs<byte[]>>)GetValue(RequestProperty);
-            set => SetValue(RequestProperty, value);
+            Request.Requested -= EventRequestOnRequested;
         }
 
-        protected override void OnDetachingFrom(FaceCanvasView bindable)
-        {
-            if (Request is not null)
-            {
-                Request.Requested -= EventRequestOnRequested;
-            }
+        base.OnDetachingFrom(bindable);
+    }
 
-            base.OnDetachingFrom(bindable);
+    private static void HandleRequestPropertyChanged(BindableObject bindable, object? oldValue, object? newValue)
+    {
+        ((LoadImageBehavior)bindable).OnRequestPropertyChanged(oldValue as IEventRequest<EventArgs<byte[]>>, newValue as IEventRequest<EventArgs<byte[]>>);
+    }
+
+    private void OnRequestPropertyChanged(IEventRequest<EventArgs<byte[]>>? oldValue, IEventRequest<EventArgs<byte[]>>? newValue)
+    {
+        if (oldValue == newValue)
+        {
+            return;
         }
 
-        private static void HandleRequestPropertyChanged(BindableObject bindable, object? oldValue, object? newValue)
+        if (oldValue is not null)
         {
-            ((LoadImageBehavior)bindable).OnRequestPropertyChanged(oldValue as IEventRequest<EventArgs<byte[]>>, newValue as IEventRequest<EventArgs<byte[]>>);
+            oldValue.Requested -= EventRequestOnRequested;
         }
 
-        private void OnRequestPropertyChanged(IEventRequest<EventArgs<byte[]>>? oldValue, IEventRequest<EventArgs<byte[]>>? newValue)
+        if (newValue is not null)
         {
-            if (oldValue == newValue)
-            {
-                return;
-            }
-
-            if (oldValue is not null)
-            {
-                oldValue.Requested -= EventRequestOnRequested;
-            }
-
-            if (newValue is not null)
-            {
-                newValue.Requested += EventRequestOnRequested;
-            }
+            newValue.Requested += EventRequestOnRequested;
         }
+    }
 
-        private void EventRequestOnRequested(object sender, EventArgs<byte[]> ea)
-        {
-            AssociatedObject?.Load(ea.Data);
-        }
+    private void EventRequestOnRequested(object sender, EventArgs<byte[]> ea)
+    {
+        AssociatedObject?.Load(ea.Data);
     }
 }

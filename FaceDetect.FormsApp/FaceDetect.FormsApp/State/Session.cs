@@ -1,7 +1,6 @@
-namespace FaceDetect.FormsApp.State
+namespace FaceDetect.FormsApp.State;
+
+public class Session
 {
-    public class Session
-    {
-        // TODO
-    }
+    // TODO
 }

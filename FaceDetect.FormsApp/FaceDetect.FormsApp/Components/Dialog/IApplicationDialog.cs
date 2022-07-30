@@ -1,17 +1,16 @@
-namespace FaceDetect.FormsApp.Components.Dialog
+namespace FaceDetect.FormsApp.Components.Dialog;
+
+using System.Threading.Tasks;
+
+using XamarinFormsComponents.Dialogs;
+
+public interface IApplicationDialog
 {
-    using System.Threading.Tasks;
+    ValueTask<bool> Confirm(string title, string message, string ok, string cancel);
 
-    using XamarinFormsComponents.Dialogs;
+    ValueTask Information(string title, string message, string ok);
 
-    public interface IApplicationDialog
-    {
-        ValueTask<bool> Confirm(string title, string message, string ok, string cancel);
+    IProgress Progress(string title);
 
-        ValueTask Information(string title, string message, string ok);
-
-        IProgress Progress(string title);
-
-        IProgress Loading(string title);
-    }
+    IProgress Loading(string title);
 }

@@ -1,17 +1,16 @@
-namespace FaceDetect.FormsApp.Messaging
+namespace FaceDetect.FormsApp.Messaging;
+
+using System;
+
+using Smart;
+using Smart.Forms.Messaging;
+
+public sealed class LoadImageRequest : IEventRequest<EventArgs<byte[]>>
 {
-    using System;
+    public event EventHandler<EventArgs<byte[]>>? Requested;
 
-    using Smart;
-    using Smart.Forms.Messaging;
-
-    public sealed class LoadImageRequest : IEventRequest<EventArgs<byte[]>>
+    public void Load(byte[] data)
     {
-        public event EventHandler<EventArgs<byte[]>>? Requested;
-
-        public void Load(byte[] data)
-        {
-            Requested?.Invoke(this, new EventArgs<byte[]>(data));
-        }
+        Requested?.Invoke(this, new EventArgs<byte[]>(data));
     }
 }

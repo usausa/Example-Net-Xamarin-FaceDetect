@@ -1,13 +1,12 @@
-namespace FaceDetect.FormsApp.Modules.Detect
-{
-    using Smart.Navigation.Attributes;
+namespace FaceDetect.FormsApp.Modules.Detect;
 
-    [View(ViewId.DetectCamera)]
-    public partial class DetectCameraView
+using Smart.Navigation.Attributes;
+
+[View(ViewId.DetectCamera)]
+public partial class DetectCameraView
+{
+    public DetectCameraView()
     {
-        public DetectCameraView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

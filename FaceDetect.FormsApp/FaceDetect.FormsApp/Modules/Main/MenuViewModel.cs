@@ -1,51 +1,50 @@
-namespace FaceDetect.FormsApp.Modules.Main
+namespace FaceDetect.FormsApp.Modules.Main;
+
+using System;
+using System.Threading.Tasks;
+using System.Windows.Input;
+
+using FaceDetect.FormsApp.Components.Dialog;
+using FaceDetect.FormsApp.State;
+using FaceDetect.FormsApp.Usecase;
+
+using Smart.Navigation;
+
+public class MenuViewModel : AppViewModelBase
 {
-    using System;
-    using System.Threading.Tasks;
-    using System.Windows.Input;
+    private readonly IApplicationDialog dialog;
 
-    using FaceDetect.FormsApp.Components.Dialog;
-    using FaceDetect.FormsApp.State;
-    using FaceDetect.FormsApp.Usecase;
+    private readonly FaceDetectUsecase faceDetectUsecase;
 
-    using Smart.Navigation;
+    public ICommand ForwardCommand { get; }
+    public ICommand DetectForwardCommand { get; }
+    public ICommand ResetCommand { get; }
 
-    public class MenuViewModel : AppViewModelBase
+    public MenuViewModel(
+        ApplicationState applicationState,
+        Configuration configuration,
+        IApplicationDialog dialog,
+        FaceDetectUsecase faceDetectUsecase)
+        : base(applicationState)
     {
-        private readonly IApplicationDialog dialog;
+        this.dialog = dialog;
+        this.faceDetectUsecase = faceDetectUsecase;
 
-        private readonly FaceDetectUsecase faceDetectUsecase;
+        var canUseApi = !String.IsNullOrEmpty(configuration.ApiKey) &&
+                        !String.IsNullOrEmpty(configuration.ApiEndPoint);
 
-        public ICommand ForwardCommand { get; }
-        public ICommand DetectForwardCommand { get; }
-        public ICommand ResetCommand { get; }
+        ForwardCommand = MakeAsyncCommand<ViewId>(x => Navigator.ForwardAsync(x));
+        DetectForwardCommand = MakeAsyncCommand<ViewId>(x => Navigator.ForwardAsync(x), _ => canUseApi);
+        ResetCommand = MakeAsyncCommand(ResetAsync, () => canUseApi);
+    }
 
-        public MenuViewModel(
-            ApplicationState applicationState,
-            Configuration configuration,
-            IApplicationDialog dialog,
-            FaceDetectUsecase faceDetectUsecase)
-            : base(applicationState)
+    private async Task ResetAsync()
+    {
+        if (!await dialog.Confirm("Reset all learning data ?"))
         {
-            this.dialog = dialog;
-            this.faceDetectUsecase = faceDetectUsecase;
-
-            var canUseApi = !String.IsNullOrEmpty(configuration.ApiKey) &&
-                            !String.IsNullOrEmpty(configuration.ApiEndPoint);
-
-            ForwardCommand = MakeAsyncCommand<ViewId>(x => Navigator.ForwardAsync(x));
-            DetectForwardCommand = MakeAsyncCommand<ViewId>(x => Navigator.ForwardAsync(x), _ => canUseApi);
-            ResetCommand = MakeAsyncCommand(ResetAsync, () => canUseApi);
+            return;
         }
 
-        private async Task ResetAsync()
-        {
-            if (!await dialog.Confirm("Reset all learning data ?"))
-            {
-                return;
-            }
-
-            await faceDetectUsecase.ResetAsync();
-        }
+        await faceDetectUsecase.ResetAsync();
     }
 }

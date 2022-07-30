@@ -1,13 +1,12 @@
-namespace FaceDetect.FormsApp.Modules.Main
-{
-    using Smart.Navigation.Attributes;
+namespace FaceDetect.FormsApp.Modules.Main;
 
-    [View(ViewId.Menu)]
-    public partial class MenuView
+using Smart.Navigation.Attributes;
+
+[View(ViewId.Menu)]
+public partial class MenuView
+{
+    public MenuView()
     {
-        public MenuView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

@@ -1,55 +1,54 @@
-namespace FaceDetect.FormsApp.Modules
+namespace FaceDetect.FormsApp.Modules;
+
+using System.Threading.Tasks;
+
+using FaceDetect.FormsApp.Shell;
+
+using Smart.Forms.ViewModels;
+using Smart.Navigation;
+
+public class AppViewModelBase : ViewModelBase, INavigatorAware, INavigationEventSupport, INotifySupportAsync<ShellEvent>
 {
-    using System.Threading.Tasks;
+    public INavigator Navigator { get; set; } = default!;
 
-    using FaceDetect.FormsApp.Shell;
+    public ApplicationState ApplicationState { get; }
 
-    using Smart.Forms.ViewModels;
-    using Smart.Navigation;
-
-    public class AppViewModelBase : ViewModelBase, INavigatorAware, INavigationEventSupport, INotifySupportAsync<ShellEvent>
+    protected AppViewModelBase(ApplicationState applicationState)
+        : base(applicationState)
     {
-        public INavigator Navigator { get; set; } = default!;
+        ApplicationState = applicationState;
+    }
 
-        public ApplicationState ApplicationState { get; }
+    protected override void Dispose(bool disposing)
+    {
+        base.Dispose(disposing);
 
-        protected AppViewModelBase(ApplicationState applicationState)
-            : base(applicationState)
+        System.Diagnostics.Debug.WriteLine($"{GetType()} is Disposed");
+    }
+
+    public virtual void OnNavigatingFrom(INavigationContext context)
+    {
+    }
+
+    public virtual void OnNavigatingTo(INavigationContext context)
+    {
+    }
+
+    public virtual void OnNavigatedTo(INavigationContext context)
+    {
+    }
+
+    public Task NavigatorNotifyAsync(ShellEvent parameter)
+    {
+        return parameter switch
         {
-            ApplicationState = applicationState;
-        }
+            ShellEvent.Back => OnNotifyBackAsync(),
+            _ => Task.CompletedTask
+        };
+    }
 
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
-
-            System.Diagnostics.Debug.WriteLine($"{GetType()} is Disposed");
-        }
-
-        public virtual void OnNavigatingFrom(INavigationContext context)
-        {
-        }
-
-        public virtual void OnNavigatingTo(INavigationContext context)
-        {
-        }
-
-        public virtual void OnNavigatedTo(INavigationContext context)
-        {
-        }
-
-        public Task NavigatorNotifyAsync(ShellEvent parameter)
-        {
-            return parameter switch
-            {
-                ShellEvent.Back => OnNotifyBackAsync(),
-                _ => Task.CompletedTask
-            };
-        }
-
-        protected virtual Task OnNotifyBackAsync()
-        {
-            return Task.CompletedTask;
-        }
+    protected virtual Task OnNotifyBackAsync()
+    {
+        return Task.CompletedTask;
     }
 }

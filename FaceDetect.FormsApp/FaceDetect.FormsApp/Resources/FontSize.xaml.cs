@@ -1,10 +1,9 @@
-namespace FaceDetect.FormsApp.Resources
+namespace FaceDetect.FormsApp.Resources;
+
+public partial class FontSize
 {
-    public partial class FontSize
+    public FontSize()
     {
-        public FontSize()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

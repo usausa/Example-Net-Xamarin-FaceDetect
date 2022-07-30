@@ -1,9 +1,8 @@
-namespace FaceDetect.FormsApp.Shell
-{
-    using Smart.ComponentModel;
+namespace FaceDetect.FormsApp.Shell;
 
-    public interface IShellControl
-    {
-        NotificationValue<string> Title { get; }
-    }
+using Smart.ComponentModel;
+
+public interface IShellControl
+{
+    NotificationValue<string> Title { get; }
 }

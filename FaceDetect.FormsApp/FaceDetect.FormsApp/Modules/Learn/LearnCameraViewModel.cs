@@ -1,43 +1,42 @@
-namespace FaceDetect.FormsApp.Modules.Learn
+namespace FaceDetect.FormsApp.Modules.Learn;
+
+using System.Threading.Tasks;
+using System.Windows.Input;
+
+using FaceDetect.FormsApp.Messaging;
+
+using Smart.Navigation;
+using Smart.Navigation.Plugins.Scope;
+
+public class LearnCameraViewModel : AppViewModelBase
 {
-    using System.Threading.Tasks;
-    using System.Windows.Input;
+    [Scope]
+    public LearnContext Context { get; set; } = default!;
 
-    using FaceDetect.FormsApp.Messaging;
+    public CameraCaptureRequest CaptureRequest { get; } = new();
 
-    using Smart.Navigation;
-    using Smart.Navigation.Plugins.Scope;
+    public ICommand BackCommand { get; }
+    public ICommand ShotCommand { get; }
 
-    public class LearnCameraViewModel : AppViewModelBase
+    public LearnCameraViewModel(
+        ApplicationState applicationState)
+        : base(applicationState)
     {
-        [Scope]
-        public LearnContext Context { get; set; } = default!;
+        BackCommand = MakeAsyncCommand(OnNotifyBackAsync);
+        ShotCommand = MakeAsyncCommand(ShotAsync);
+    }
 
-        public CameraCaptureRequest CaptureRequest { get; } = new();
+    protected override Task OnNotifyBackAsync()
+    {
+        return Navigator.ForwardAsync(ViewId.LearnList);
+    }
 
-        public ICommand BackCommand { get; }
-        public ICommand ShotCommand { get; }
-
-        public LearnCameraViewModel(
-            ApplicationState applicationState)
-            : base(applicationState)
+    private async Task ShotAsync()
+    {
+        var image = await CaptureRequest.CaptureAsync();
+        if (image is not null)
         {
-            BackCommand = MakeAsyncCommand(OnNotifyBackAsync);
-            ShotCommand = MakeAsyncCommand(ShotAsync);
-        }
-
-        protected override Task OnNotifyBackAsync()
-        {
-            return Navigator.ForwardAsync(ViewId.LearnList);
-        }
-
-        private async Task ShotAsync()
-        {
-            var image = await CaptureRequest.CaptureAsync();
-            if (image is not null)
-            {
-                await Navigator.ForwardAsync(ViewId.LearnConfirm, Parameters.MakeImage(image));
-            }
+            await Navigator.ForwardAsync(ViewId.LearnConfirm, Parameters.MakeImage(image));
         }
     }
 }

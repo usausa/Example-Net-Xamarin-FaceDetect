@@ -1,7 +1,6 @@
-namespace FaceDetect.FormsApp.Shell
+namespace FaceDetect.FormsApp.Shell;
+
+public enum ShellEvent
 {
-    public enum ShellEvent
-    {
-        Back
-    }
+    Back
 }

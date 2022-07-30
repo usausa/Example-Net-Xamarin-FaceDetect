@@ -1,30 +1,29 @@
-namespace FaceDetect.FormsApp
+namespace FaceDetect.FormsApp;
+
+using FaceDetect.FormsApp.Shell;
+
+using Smart.ComponentModel;
+using Smart.Forms.ViewModels;
+using Smart.Navigation;
+
+public class MainPageViewModel : ViewModelBase, IShellControl
 {
-    using FaceDetect.FormsApp.Shell;
+    public NotificationValue<string> Title { get; } = new();
 
-    using Smart.ComponentModel;
-    using Smart.Forms.ViewModels;
-    using Smart.Navigation;
+    public ApplicationState ApplicationState { get; }
 
-    public class MainPageViewModel : ViewModelBase, IShellControl
+    public INavigator Navigator { get; }
+
+    //--------------------------------------------------------------------------------
+    // Constructor
+    //--------------------------------------------------------------------------------
+
+    public MainPageViewModel(
+        ApplicationState applicationState,
+        INavigator navigator)
+        : base(applicationState)
     {
-        public NotificationValue<string> Title { get; } = new();
-
-        public ApplicationState ApplicationState { get; }
-
-        public INavigator Navigator { get; }
-
-        //--------------------------------------------------------------------------------
-        // Constructor
-        //--------------------------------------------------------------------------------
-
-        public MainPageViewModel(
-            ApplicationState applicationState,
-            INavigator navigator)
-            : base(applicationState)
-        {
-            ApplicationState = applicationState;
-            Navigator = navigator;
-        }
+        ApplicationState = applicationState;
+        Navigator = navigator;
     }
 }

@@ -1,10 +1,9 @@
-namespace FaceDetect.FormsApp.Resources
+namespace FaceDetect.FormsApp.Resources;
+
+public partial class MetroColors
 {
-    public partial class MetroColors
+    public MetroColors()
     {
-        public MetroColors()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

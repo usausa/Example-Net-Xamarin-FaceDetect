@@ -1,20 +1,19 @@
-namespace FaceDetect.FormsApp.Modules
+namespace FaceDetect.FormsApp.Modules;
+
+public enum ViewId
 {
-    public enum ViewId
-    {
-        Menu,
+    Menu,
 
-        DetectCamera,
-        DetectResult,
+    DetectCamera,
+    DetectResult,
 
-        LearnList,
-        LearnEdit,
-        LearnCamera,
-        LearnConfirm,
+    LearnList,
+    LearnEdit,
+    LearnCamera,
+    LearnConfirm,
 
-        IdentifyCamera,
-        IdentifyResult,
+    IdentifyCamera,
+    IdentifyResult,
 
-        Setting
-    }
+    Setting
 }

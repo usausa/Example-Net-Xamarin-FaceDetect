@@ -1,14 +1,13 @@
-namespace FaceDetect.FormsApp.Models.Result
+namespace FaceDetect.FormsApp.Models.Result;
+
+using System;
+using System.Drawing;
+
+public class IdentifyResult
 {
-    using System;
-    using System.Drawing;
+    public Guid Id { get; set; }
 
-    public class IdentifyResult
-    {
-        public Guid Id { get; set; }
+    public double Confidence { get; set; }
 
-        public double Confidence { get; set; }
-
-        public Rectangle FaceRectangle { get; set; }
-    }
+    public Rectangle FaceRectangle { get; set; }
 }

@@ -1,20 +1,19 @@
-namespace FaceDetect.FormsApp
+namespace FaceDetect.FormsApp;
+
+using FaceDetect.FormsApp.Shell;
+
+using Smart.Navigation;
+
+public partial class MainPage
 {
-    using FaceDetect.FormsApp.Shell;
-
-    using Smart.Navigation;
-
-    public partial class MainPage
+    public MainPage()
     {
-        public MainPage()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+    }
 
-        protected override bool OnBackButtonPressed()
-        {
-            (BindingContext as MainPageViewModel)?.Navigator.NotifyAsync(ShellEvent.Back);
-            return true;
-        }
+    protected override bool OnBackButtonPressed()
+    {
+        (BindingContext as MainPageViewModel)?.Navigator.NotifyAsync(ShellEvent.Back);
+        return true;
     }
 }

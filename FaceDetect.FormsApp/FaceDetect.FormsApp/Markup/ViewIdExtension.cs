@@ -1,25 +1,24 @@
-namespace FaceDetect.FormsApp.Markup
+namespace FaceDetect.FormsApp.Markup;
+
+using System;
+
+using FaceDetect.FormsApp.Modules;
+
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
+
+[ContentProperty("Value")]
+public sealed class ViewIdExtension : IMarkupExtension<ViewId>
 {
-    using System;
+    public ViewId Value { get; set; }
 
-    using FaceDetect.FormsApp.Modules;
-
-    using Xamarin.Forms;
-    using Xamarin.Forms.Xaml;
-
-    [ContentProperty("Value")]
-    public sealed class ViewIdExtension : IMarkupExtension<ViewId>
+    public ViewId ProvideValue(IServiceProvider serviceProvider)
     {
-        public ViewId Value { get; set; }
+        return Value;
+    }
 
-        public ViewId ProvideValue(IServiceProvider serviceProvider)
-        {
-            return Value;
-        }
-
-        object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider)
-        {
-            return ProvideValue(serviceProvider);
-        }
+    object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider)
+    {
+        return ProvideValue(serviceProvider);
     }
 }

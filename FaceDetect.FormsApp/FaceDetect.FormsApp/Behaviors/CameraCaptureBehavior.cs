@@ -1,123 +1,122 @@
-namespace FaceDetect.FormsApp.Behaviors
+namespace FaceDetect.FormsApp.Behaviors;
+
+using FaceDetect.FormsApp.Helpers;
+using FaceDetect.FormsApp.Messaging;
+
+using Smart.Forms.Interactivity;
+using Smart.Forms.Messaging;
+
+using Xamarin.CommunityToolkit.UI.Views;
+using Xamarin.Forms;
+
+public sealed class CameraCaptureBehavior : BehaviorBase<CameraView>
 {
-    using FaceDetect.FormsApp.Helpers;
-    using FaceDetect.FormsApp.Messaging;
+    public static readonly BindableProperty RequestProperty = BindableProperty.Create(
+        nameof(Request),
+        typeof(IEventRequest<CameraCaptureEventArgs>),
+        typeof(CameraCaptureBehavior),
+        null,
+        propertyChanged: HandleRequestPropertyChanged);
 
-    using Smart.Forms.Interactivity;
-    using Smart.Forms.Messaging;
+    public static readonly BindableProperty MaxSizeProperty = BindableProperty.Create(
+        nameof(MaxSize),
+        typeof(int),
+        typeof(CameraCaptureBehavior),
+        1024);
 
-    using Xamarin.CommunityToolkit.UI.Views;
-    using Xamarin.Forms;
+    public static readonly BindableProperty QualityProperty = BindableProperty.Create(
+        nameof(Quality),
+        typeof(int),
+        typeof(CameraCaptureBehavior),
+        85);
 
-    public sealed class CameraCaptureBehavior : BehaviorBase<CameraView>
+    public IEventRequest<CameraCaptureEventArgs>? Request
     {
-        public static readonly BindableProperty RequestProperty = BindableProperty.Create(
-            nameof(Request),
-            typeof(IEventRequest<CameraCaptureEventArgs>),
-            typeof(CameraCaptureBehavior),
-            null,
-            propertyChanged: HandleRequestPropertyChanged);
+        get => (IEventRequest<CameraCaptureEventArgs>)GetValue(RequestProperty);
+        set => SetValue(RequestProperty, value);
+    }
 
-        public static readonly BindableProperty MaxSizeProperty = BindableProperty.Create(
-            nameof(MaxSize),
-            typeof(int),
-            typeof(CameraCaptureBehavior),
-            1024);
+    public int MaxSize
+    {
+        get => (int)GetValue(MaxSizeProperty);
+        set => SetValue(MaxSizeProperty, value);
+    }
 
-        public static readonly BindableProperty QualityProperty = BindableProperty.Create(
-            nameof(Quality),
-            typeof(int),
-            typeof(CameraCaptureBehavior),
-            85);
+    public int Quality
+    {
+        get => (int)GetValue(QualityProperty);
+        set => SetValue(QualityProperty, value);
+    }
 
-        public IEventRequest<CameraCaptureEventArgs>? Request
+    protected override void OnDetachingFrom(CameraView bindable)
+    {
+        if (Request is not null)
         {
-            get => (IEventRequest<CameraCaptureEventArgs>)GetValue(RequestProperty);
-            set => SetValue(RequestProperty, value);
+            Request.Requested -= EventRequestOnRequested;
         }
 
-        public int MaxSize
+        base.OnDetachingFrom(bindable);
+    }
+
+    private static void HandleRequestPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+    {
+        ((CameraCaptureBehavior)bindable).OnMessengerPropertyChanged(oldValue as IEventRequest<CameraCaptureEventArgs>, newValue as IEventRequest<CameraCaptureEventArgs>);
+    }
+
+    private void OnMessengerPropertyChanged(IEventRequest<CameraCaptureEventArgs>? oldValue, IEventRequest<CameraCaptureEventArgs>? newValue)
+    {
+        if (oldValue == newValue)
         {
-            get => (int)GetValue(MaxSizeProperty);
-            set => SetValue(MaxSizeProperty, value);
+            return;
         }
 
-        public int Quality
+        if (oldValue is not null)
         {
-            get => (int)GetValue(QualityProperty);
-            set => SetValue(QualityProperty, value);
+            oldValue.Requested -= EventRequestOnRequested;
         }
 
-        protected override void OnDetachingFrom(CameraView bindable)
+        if (newValue is not null)
         {
-            if (Request is not null)
+            newValue.Requested += EventRequestOnRequested;
+        }
+    }
+
+    private void EventRequestOnRequested(object sender, CameraCaptureEventArgs ea)
+    {
+        async void MediaCaptured(object s, MediaCapturedEventArgs e)
+        {
+            var camera = (CameraView)s;
+            camera.MediaCaptured -= MediaCaptured;
+            camera.MediaCaptureFailed -= MediaCaptureFailed;
+
+            if (e.ImageData is not null)
             {
-                Request.Requested -= EventRequestOnRequested;
+                var image = await ImageHelper.NormalizeImageAsync(e.ImageData, MaxSize, e.Rotation, Quality);
+                ea.CompletionSource.TrySetResult(image);
             }
-
-            base.OnDetachingFrom(bindable);
-        }
-
-        private static void HandleRequestPropertyChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            ((CameraCaptureBehavior)bindable).OnMessengerPropertyChanged(oldValue as IEventRequest<CameraCaptureEventArgs>, newValue as IEventRequest<CameraCaptureEventArgs>);
-        }
-
-        private void OnMessengerPropertyChanged(IEventRequest<CameraCaptureEventArgs>? oldValue, IEventRequest<CameraCaptureEventArgs>? newValue)
-        {
-            if (oldValue == newValue)
+            else
             {
-                return;
-            }
-
-            if (oldValue is not null)
-            {
-                oldValue.Requested -= EventRequestOnRequested;
-            }
-
-            if (newValue is not null)
-            {
-                newValue.Requested += EventRequestOnRequested;
-            }
-        }
-
-        private void EventRequestOnRequested(object sender, CameraCaptureEventArgs ea)
-        {
-            async void MediaCaptured(object s, MediaCapturedEventArgs e)
-            {
-                var camera = (CameraView)s;
-                camera.MediaCaptured -= MediaCaptured;
-                camera.MediaCaptureFailed -= MediaCaptureFailed;
-
-                if (e.ImageData is not null)
-                {
-                    var image = await ImageHelper.NormalizeImageAsync(e.ImageData, MaxSize, e.Rotation, Quality);
-                    ea.CompletionSource.TrySetResult(image);
-                }
-                else
-                {
-                    ea.CompletionSource.TrySetResult(null);
-                }
-            }
-
-            void MediaCaptureFailed(object s, string e)
-            {
-                var camera = (CameraView)s;
-                camera.MediaCaptured -= MediaCaptured;
-                camera.MediaCaptureFailed -= MediaCaptureFailed;
-
                 ea.CompletionSource.TrySetResult(null);
             }
-
-            if (AssociatedObject is null)
-            {
-                return;
-            }
-
-            AssociatedObject.MediaCaptured += MediaCaptured;
-            AssociatedObject.MediaCaptureFailed += MediaCaptureFailed;
-
-            AssociatedObject.Shutter();
         }
+
+        void MediaCaptureFailed(object s, string e)
+        {
+            var camera = (CameraView)s;
+            camera.MediaCaptured -= MediaCaptured;
+            camera.MediaCaptureFailed -= MediaCaptureFailed;
+
+            ea.CompletionSource.TrySetResult(null);
+        }
+
+        if (AssociatedObject is null)
+        {
+            return;
+        }
+
+        AssociatedObject.MediaCaptured += MediaCaptured;
+        AssociatedObject.MediaCaptureFailed += MediaCaptureFailed;
+
+        AssociatedObject.Shutter();
     }
 }

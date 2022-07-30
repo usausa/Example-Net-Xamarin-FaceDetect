@@ -1,21 +1,20 @@
-namespace FaceDetect.FormsApp.Helpers
+namespace FaceDetect.FormsApp.Helpers;
+
+using System;
+using System.Data;
+
+using Smart.Data.Mapper.Handlers;
+
+public sealed class GuidTypeHandler : TypeHandler<Guid>
 {
-    using System;
-    using System.Data;
-
-    using Smart.Data.Mapper.Handlers;
-
-    public sealed class GuidTypeHandler : TypeHandler<Guid>
+    public override void SetValue(IDbDataParameter parameter, Guid value)
     {
-        public override void SetValue(IDbDataParameter parameter, Guid value)
-        {
-            parameter.DbType = DbType.String;
-            parameter.Value = value.ToString();
-        }
+        parameter.DbType = DbType.String;
+        parameter.Value = value.ToString();
+    }
 
-        public override Guid Parse(object value)
-        {
-            return Guid.Parse((string)value);
-        }
+    public override Guid Parse(object value)
+    {
+        return Guid.Parse((string)value);
     }
 }

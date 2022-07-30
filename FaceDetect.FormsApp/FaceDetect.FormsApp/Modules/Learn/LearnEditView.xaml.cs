@@ -1,13 +1,12 @@
-namespace FaceDetect.FormsApp.Modules.Learn
-{
-    using Smart.Navigation.Attributes;
+namespace FaceDetect.FormsApp.Modules.Learn;
 
-    [View(ViewId.LearnEdit)]
-    public partial class LearnEditView
+using Smart.Navigation.Attributes;
+
+[View(ViewId.LearnEdit)]
+public partial class LearnEditView
+{
+    public LearnEditView()
     {
-        public LearnEditView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

@@ -1,10 +1,9 @@
-namespace FaceDetect.FormsApp.Resources
+namespace FaceDetect.FormsApp.Resources;
+
+public partial class MaterialColors
 {
-    public partial class MaterialColors
+    public MaterialColors()
     {
-        public MaterialColors()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

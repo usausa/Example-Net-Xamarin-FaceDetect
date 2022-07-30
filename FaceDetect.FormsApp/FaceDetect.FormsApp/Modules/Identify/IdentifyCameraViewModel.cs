@@ -1,39 +1,38 @@
-namespace FaceDetect.FormsApp.Modules.Identify
+namespace FaceDetect.FormsApp.Modules.Identify;
+
+using System.Threading.Tasks;
+using System.Windows.Input;
+
+using FaceDetect.FormsApp.Messaging;
+
+using Smart.Navigation;
+
+public class IdentifyCameraViewModel : AppViewModelBase
 {
-    using System.Threading.Tasks;
-    using System.Windows.Input;
+    public CameraCaptureRequest CaptureRequest { get; } = new();
 
-    using FaceDetect.FormsApp.Messaging;
+    public ICommand BackCommand { get; }
+    public ICommand IdentifyCommand { get; }
 
-    using Smart.Navigation;
-
-    public class IdentifyCameraViewModel : AppViewModelBase
+    public IdentifyCameraViewModel(
+        ApplicationState applicationState)
+        : base(applicationState)
     {
-        public CameraCaptureRequest CaptureRequest { get; } = new();
+        BackCommand = MakeAsyncCommand(OnNotifyBackAsync);
+        IdentifyCommand = MakeAsyncCommand(IdentifyAsync);
+    }
 
-        public ICommand BackCommand { get; }
-        public ICommand IdentifyCommand { get; }
+    protected override Task OnNotifyBackAsync()
+    {
+        return Navigator.ForwardAsync(ViewId.Menu);
+    }
 
-        public IdentifyCameraViewModel(
-            ApplicationState applicationState)
-            : base(applicationState)
+    private async Task IdentifyAsync()
+    {
+        var image = await CaptureRequest.CaptureAsync();
+        if (image is not null)
         {
-            BackCommand = MakeAsyncCommand(OnNotifyBackAsync);
-            IdentifyCommand = MakeAsyncCommand(IdentifyAsync);
-        }
-
-        protected override Task OnNotifyBackAsync()
-        {
-            return Navigator.ForwardAsync(ViewId.Menu);
-        }
-
-        private async Task IdentifyAsync()
-        {
-            var image = await CaptureRequest.CaptureAsync();
-            if (image is not null)
-            {
-                await Navigator.ForwardAsync(ViewId.IdentifyResult, Parameters.MakeImage(image));
-            }
+            await Navigator.ForwardAsync(ViewId.IdentifyResult, Parameters.MakeImage(image));
         }
     }
 }

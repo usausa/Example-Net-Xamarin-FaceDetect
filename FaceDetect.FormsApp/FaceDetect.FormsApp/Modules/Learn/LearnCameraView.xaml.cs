@@ -1,13 +1,12 @@
-namespace FaceDetect.FormsApp.Modules.Learn
-{
-    using Smart.Navigation.Attributes;
+namespace FaceDetect.FormsApp.Modules.Learn;
 
-    [View(ViewId.LearnCamera)]
-    public partial class LearnCameraView
+using Smart.Navigation.Attributes;
+
+[View(ViewId.LearnCamera)]
+public partial class LearnCameraView
+{
+    public LearnCameraView()
     {
-        public LearnCameraView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

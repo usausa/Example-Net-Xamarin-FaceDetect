@@ -1,13 +1,12 @@
-namespace FaceDetect.FormsApp.Modules.Learn
-{
-    using Smart.Navigation.Attributes;
+namespace FaceDetect.FormsApp.Modules.Learn;
 
-    [View(ViewId.LearnConfirm)]
-    public partial class LearnConfirmView
+using Smart.Navigation.Attributes;
+
+[View(ViewId.LearnConfirm)]
+public partial class LearnConfirmView
+{
+    public LearnConfirmView()
     {
-        public LearnConfirmView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

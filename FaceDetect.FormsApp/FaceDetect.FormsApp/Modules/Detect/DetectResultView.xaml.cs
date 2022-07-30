@@ -1,13 +1,12 @@
-namespace FaceDetect.FormsApp.Modules.Detect
-{
-    using Smart.Navigation.Attributes;
+namespace FaceDetect.FormsApp.Modules.Detect;
 
-    [View(ViewId.DetectResult)]
-    public partial class DetectResultView
+using Smart.Navigation.Attributes;
+
+[View(ViewId.DetectResult)]
+public partial class DetectResultView
+{
+    public DetectResultView()
     {
-        public DetectResultView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

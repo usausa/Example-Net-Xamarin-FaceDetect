@@ -1,9 +1,8 @@
-namespace FaceDetect.FormsApp.Modules.Learn
-{
-    using FaceDetect.FormsApp.Models.Entity;
+namespace FaceDetect.FormsApp.Modules.Learn;
 
-    public class LearnContext
-    {
-        public PersonEntity? Person { get; set; }
-    }
+using FaceDetect.FormsApp.Models.Entity;
+
+public class LearnContext
+{
+    public PersonEntity? Person { get; set; }
 }
