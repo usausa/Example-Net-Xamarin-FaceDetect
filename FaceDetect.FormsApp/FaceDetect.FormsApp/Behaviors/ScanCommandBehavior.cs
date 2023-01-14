@@ -17,7 +17,6 @@ public sealed class ScanCommandBehavior : BehaviorBase<ZXingScannerView>
         nameof(Command),
         typeof(ICommand),
         typeof(ScanCommandBehavior),
-        null,
         propertyChanged: HandleCommandPropertyChanged);
 
     public ICommand? Command

@@ -14,7 +14,6 @@ public sealed class LoadImageBehavior : BehaviorBase<FaceCanvasView>
         nameof(Request),
         typeof(IEventRequest<EventArgs<byte[]>>),
         typeof(CameraCaptureBehavior),
-        null,
         propertyChanged: HandleRequestPropertyChanged);
 
     public IEventRequest<EventArgs<byte[]>>? Request
