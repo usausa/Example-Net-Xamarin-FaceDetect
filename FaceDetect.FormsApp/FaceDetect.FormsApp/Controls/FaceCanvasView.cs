@@ -36,7 +36,9 @@ public class FaceCanvasView : SKCanvasView
         var canvas = e.Surface.Canvas;
 
         // Fill background
-        using var backgroundPaint = new SKPaint { Style = SKPaintStyle.Fill, Color = SKColors.White };
+        using var backgroundPaint = new SKPaint();
+        backgroundPaint.Style = SKPaintStyle.Fill;
+        backgroundPaint.Color = SKColors.White;
 
         canvas.DrawRect(info.Rect, backgroundPaint);
 
@@ -64,14 +66,12 @@ public class FaceCanvasView : SKCanvasView
             var scaledBoxTop = top + (scale * FaceRectangle.Value.Top);
             var scaledBoxHeight = scale * FaceRectangle.Value.Height;
             using var path = CreateBoxPath(scaledBoxLeft, scaledBoxTop, scaledBoxWidth, scaledBoxHeight);
-            using var strokePaint = new SKPaint
-            {
-                IsAntialias = true,
-                Style = SKPaintStyle.Stroke,
-                Color = SKColors.OrangeRed,
-                StrokeWidth = 5,
-                PathEffect = SKPathEffect.CreateDash(new[] { 5f, 5f }, 5f)
-            };
+            using var strokePaint = new SKPaint();
+            strokePaint.IsAntialias = true;
+            strokePaint.Style = SKPaintStyle.Stroke;
+            strokePaint.Color = SKColors.OrangeRed;
+            strokePaint.StrokeWidth = 5;
+            strokePaint.PathEffect = SKPathEffect.CreateDash(new[] { 5f, 5f }, 5f);
 
             canvas.DrawPath(path, strokePaint);
         }

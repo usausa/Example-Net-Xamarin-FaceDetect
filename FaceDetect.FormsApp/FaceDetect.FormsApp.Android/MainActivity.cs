@@ -31,7 +31,7 @@ using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
     WindowSoftInputMode = SoftInput.AdjustResize)]
 public class MainActivity : Xamarin.Forms.Platform.Android.FormsAppCompatActivity
 {
-    protected override void OnCreate(Bundle savedInstanceState)
+    protected override void OnCreate(Bundle? savedInstanceState)
     {
         SetTheme(Resource.Style.MainTheme);
         base.OnCreate(savedInstanceState);
