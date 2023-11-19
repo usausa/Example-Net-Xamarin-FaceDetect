@@ -57,7 +57,7 @@ public class SettingViewModel : AppViewModelBase
         var updated = false;
 
         using var reader = new StringReader(text);
-        foreach (var line in reader.ReadLines())
+        await foreach (var line in reader.ReadLinesAsync())
         {
             var values = line.Split('=');
             if (values.Length != 2)
